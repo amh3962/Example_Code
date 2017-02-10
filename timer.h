@@ -1,0 +1,1 @@
+void initTimer(int, int);	

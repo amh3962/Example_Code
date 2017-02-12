@@ -1,3 +1,3 @@
-#include "stm32l476g_discovery.h"
+#include "stm32l476xx.h"
 
-void SystemClock_Config(void);
+void init_pa0( void );

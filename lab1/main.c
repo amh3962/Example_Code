@@ -1,15 +1,13 @@
-#include "stm32l476xx.h"
 #include "SysClock.h"
 #include "timer.h"
 #include "run.h"
 #include "console.h"
 #include "UART.h"
+#include "init.h"
 
 #include <string.h>
 #include <stdio.h>
 
-char RxComByte = 0;
-uint8_t buffer[BufferSize];
 int status = 0;
 int lower = 950;
 char rxByte;
@@ -19,6 +17,7 @@ int main(void){
     // Initialize
     System_Clock_Init();
 	UART2_Init();
+    init_pa0();
 	
     // Intro text
     USART_Write(USART2, (uint8_t *)str, strlen(str));

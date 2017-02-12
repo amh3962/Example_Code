@@ -434,6 +434,41 @@
               <FileType>5</FileType>
               <FilePath>.\console.h</FilePath>
             </File>
+            <File>
+              <FileName>SysClock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SysClock.c</FilePath>
+            </File>
+            <File>
+              <FileName>SysClock.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\SysClock.h</FilePath>
+            </File>
+            <File>
+              <FileName>init.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\init.h</FilePath>
+            </File>
+            <File>
+              <FileName>init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\init.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l476g_discovery.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\stm32l476g_discovery.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\stm32l4xx_hal.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32l4xx_hal_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\stm32l4xx_hal_conf.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

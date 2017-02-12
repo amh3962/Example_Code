@@ -1,2 +1,4 @@
-void post(void);
-void run(void);
+#include "timer.h"
+
+int post(void);
+void run(int);

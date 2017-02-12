@@ -8,19 +8,26 @@
  * @return 1 for success, 0 for failure
  */
 int post(void) {
+	int result = 0;
 	// setup timer
-	initTimer(0, 100000);
+	result = initTimer(1, 8000000);
 	// check for input
 	// 1 for success, 0 for fail
-	return 0;
+ return result;
 }
 
-/**
- * asdf
- */
 void run(int lower) {
+    /*
+	int result = 0;
+	int i = 0;
 	// setup timer
-	initTimer(1, lower);
+	for(i, i < 1000, i++)
+	{
+		result = initTimer(0, 0);
+		array[i] = (result ;
+		
+	}
 	// setup data struc
 	// take counts
+    */
 }

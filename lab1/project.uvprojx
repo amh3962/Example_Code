@@ -395,24 +395,44 @@
               <FilePath>.\stm32l476xx.h</FilePath>
             </File>
             <File>
-              <FileName>LED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\LED.c</FilePath>
-            </File>
-            <File>
-              <FileName>SysClock.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\SysClock.c</FilePath>
-            </File>
-            <File>
               <FileName>UART.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\UART.c</FilePath>
             </File>
             <File>
-              <FileName>pins.txt</FileName>
+              <FileName>run.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\run.c</FilePath>
+            </File>
+            <File>
+              <FileName>run.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\pins.txt</FilePath>
+              <FilePath>.\run.h</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>UART.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\UART.h</FilePath>
+            </File>
+            <File>
+              <FileName>console.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\console.c</FilePath>
+            </File>
+            <File>
+              <FileName>console.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\console.h</FilePath>
             </File>
           </Files>
         </Group>

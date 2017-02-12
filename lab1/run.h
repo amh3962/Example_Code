@@ -1,2 +1,2 @@
-void post();
-void run();
+void post(void);
+void run(void);

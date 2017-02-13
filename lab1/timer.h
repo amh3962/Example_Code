@@ -1,1 +1,2 @@
-int initTimer(int, int);	
+void initTimer(int, int);	
+int runTimer(void);	

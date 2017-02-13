@@ -1,4 +1,5 @@
 #include "run.h"
+#include "console.h"
 
 // Code for post and run
 
@@ -12,24 +13,24 @@
 int post(void) {
 	int result = 0;
 	// setup timer
-	result = initTimer(1, 8000000);
+	initTimer(1, 8000000);
+	result = runTimer();
 	// check for input
 	// 1 for success, 0 for fail
  return result;
 }
 
-void run(int lower) {
-    /*
-	int result = 0;
-	int i = 0;
+void run(int lower, int* results) {
+    
+	int i;
+	int n = 0;
 	// setup timer
-	for(i, i < 1000, i++)
+	initTimer(0,0);
+	for(i = 0; i < 1000; i++)
 	{
-		result = initTimer(0, 0);
-		array[i] = (result ;
-		
+		n = (runTimer() / 80) - lower;
+		// n is not formatted correctly, possibly different size so it's effecting lower
+		printInt(n);
+		results[n] += 1;
 	}
-	// setup data struc
-	// take counts
-    */
 }

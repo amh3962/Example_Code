@@ -1,4 +1,4 @@
 #include "timer.h"
 
 int post(void);
-void run(int);
+void run(int, int*);

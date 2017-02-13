@@ -405,11 +405,6 @@
               <FilePath>.\run.c</FilePath>
             </File>
             <File>
-              <FileName>run.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\run.h</FilePath>
-            </File>
-            <File>
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\timer.c</FilePath>
@@ -453,21 +448,6 @@
               <FileName>init.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\init.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32l476g_discovery.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\stm32l476g_discovery.h</FilePath>
-            </File>
-            <File>
-              <FileName>stm32l4xx_hal.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\stm32l4xx_hal.h</FilePath>
-            </File>
-            <File>
-              <FileName>stm32l4xx_hal_conf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\stm32l4xx_hal_conf.h</FilePath>
             </File>
           </Files>
         </Group>

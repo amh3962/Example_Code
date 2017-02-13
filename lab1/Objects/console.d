@@ -11,3 +11,4 @@
 .\objects\console.o: C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include\system_stm32l4xx.h
 .\objects\console.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\console.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\console.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

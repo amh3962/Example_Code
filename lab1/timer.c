@@ -3,8 +3,7 @@
 
 // Hardware code for timer initialization and setup
 
-int initTimer(int direction, int count) {
-    int result = 0;
+void initTimer(int direction, int count) {
 	// direction: 0 for down 1 for up
 	// count: number in microseconds
 	RCC->APB1ENR1 |= 0x00000001;  //Timer 2 Clock Enable
@@ -14,8 +13,15 @@ int initTimer(int direction, int count) {
 	TIM2->CCER |= 0x0001; 	//Turn off output enable
 	TIM2->CR1 &= 0x0000; 		//Reset control register
 	TIM2->CR1 |= direction; //Set count direction. 0 = upcount, 1 = downcount
-	TIM2->EGR |= 0x0001; 		//Create update event
 	
+	int i;
+	for (i = 0; i < 4000000; i++)
+		;
+}
+
+int runTimer() {
+    int result = 0;
+	TIM2->EGR |= 0x0001; 		//Create update event
 	
 	TIM2->CR1 |= 0x0001;	//Start or stop timer (bit 0)
 	while(result == 0)

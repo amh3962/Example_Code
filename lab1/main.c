@@ -12,7 +12,7 @@ int status;
 int lower = 950;
 char rxByte;
 char str[] = "\n\nLab 1 - Yura Kim, Aaron Halling\r\n\n";
-int results[101];
+int results[100];
 
 int main(void){
     // Initialize
@@ -38,7 +38,7 @@ int main(void){
 		// Run continuously
 	  while (1) {
 				// initialize results
-				for (int i=0;i<102;i++) {
+				for (int i=0;i<101;i++) {
 						results[i] = 0;
 				}
         lower = getLimit(lower);    // display and confirm limits

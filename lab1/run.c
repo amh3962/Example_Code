@@ -13,7 +13,7 @@
 int post(void) {
 	int result = 0;
 	// setup timer
-	initTimer(1, 8000000);
+	initTimer(144, 8000000); // Passing Direction and Autoload value
 	result = runTimer();
 	// check for input
 	// 1 for success, 0 for fail
@@ -21,16 +21,17 @@ int post(void) {
 }
 
 void run(int lower, int* results) {
-    
 	int i;
 	int n = 0;
 	// setup timer
-	initTimer(0,0);
-	for(i = 0; i < 1000; i++)
+	initTimer(128,804000);
+	//initTimer(128,9999999);
+	for(i = 0; i < 1001; i++)
 	{
+		//printInt(runTimer());
 		n = (runTimer() / 80) - lower;
 		// n is not formatted correctly, possibly different size so it's effecting lower
-		printInt(n);
+		//printInt(n);
 		results[n] += 1;
 	}
 }

@@ -46,5 +46,6 @@ int main(void){
 		    printHistogram(lower, results);      // print histogram
 	  }
 		*/
-		initTimer(2);
+		initTimer(20);
+		initTimer(20);
 }

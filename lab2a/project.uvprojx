@@ -454,6 +454,11 @@
               <FileType>5</FileType>
               <FilePath>.\run.h</FilePath>
             </File>
+            <File>
+              <FileName>state_machine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\state_machine.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

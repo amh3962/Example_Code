@@ -3,25 +3,34 @@
 
 // Hardware code for timer initialization and setup
 
-void initTimer(int count) {
-	// count: number in microseconds
-	// The reference PWM signal OCxREF is high as long as TIMx_CNT <TIMx_CCRx
-	// else it becomes low. If the compare value in TIMx_CCRx is greater than
-	// the auto-reload value (in TIMx_ARR) then OCxREF is held at ‘1.
-	RCC->APB1ENR1 |= 0x00000001;  //Timer 2 Clock Enable
-	TIM2->PSC = 0x0000;  		//Timer Prescaler = 0
-	TIM2->EGR |= 0x0001; 		//Create update event
-	TIM2->ARR = 1440000; 			//Set auto-load value
-	TIM2->CCER &= 0x00000000; //Turn off input enable
+// count: number in milliseconds
+void initTimer(int count1, int count2) {
+	//Timer 2 Clock Enable
+	RCC->APB1ENR1 |= 0x00000001;
+	TIM2->PSC = 0x1f40;  		//Timer Prescaler = 8000; 100 microseconds
+	//Create update event
+	TIM2->EGR |= 0x0001;
+	TIM2->ARR = 0x00c8; 		//Set auto-load value; 200 for 20 milliseconds
+	TIM2->CCER &= 0x0000;		//Turn off input enable
 	TIM2->CCMR1 &= 0x0000;
-	TIM2->CCMR1 |= 0x0060;  //Input Capture pwm mode 1
-	TIM2->CCER |= 0x0001; 	//Turn on output enable
+	TIM2->CCMR1 |= 0x6868;  //Input Capture pwm mode 1 for channel 1 & 2
+	TIM2->CCER |= 0x0011; 	//Turn on output enable for channel 1 & 2
 	TIM2->CR1 &= 0x0000; 		//Reset control register
-	TIM2->CR1 |= 0x0080;		//auto loading
+	TIM2->CR1 |= 0x0080;		//Auto loading
+	// Channel 1
+	TIM2->CCR1 &= 0x0000;		//Reset the pulse width
+	TIM2->CCR1 |= count1;		//Set pulse width
+	// Channel 2
+	TIM2->CCR2 &= 0x0000;		//Reset the pulse width
+	TIM2->CCR2 |= count2;		//Set pulse width
+	// Update event
+	TIM2->EGR |= 0x0001;
 	
 	int i;
 	for (i = 0; i < 4000000; i++)
 		;
+	
+	TIM2->CR1 |= 0x0001;	//Start timer (bit 0)
 	return;
 }
 
@@ -29,8 +38,7 @@ int runTimer() {
   int result = 0;
 	TIM2->EGR |= 0x0001; 		//Create update event
 	TIM2->SR &= 0x00000000;
-	
-	TIM2->CR1 |= 0x0001;	//Start timer (bit 0)
+
 	while(result == 0)
 	{
 		if((TIM2->SR) & 0x0002)	 // Check for capture interupt

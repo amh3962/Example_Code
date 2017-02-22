@@ -34,6 +34,21 @@ void initTimer(int count1, int count2) {
 	return;
 }
 
+void initWaitTimer(void) {
+	// direction: 0 for down 1 for up
+	// count: number in microseconds
+	RCC->APB1ENR1 |= 0x00000001;  //Timer 2 Clock Enable
+	TIM5->PSC = 0x0000;  		//Timer Prescaler = 0
+	TIM5->EGR |= 0x0001; 		//Create update event
+	TIM5->ARR = 8000000; 			//Set auto-load value. 100ms count
+	TIM5->CCER &= 0x00000000; //Turn off input enable
+	TIM5->CCMR1 &= 0x0000; //Capture frozen. Using as Timing Base
+	TIM5->CR1 &= 0x0000; 		//Reset control register
+	TIM5->CR1 |= 0x0010; //Set count direction. 0 = upcount, 1 = downcount
+	TIM5->EGR |= 0x0001;
+	return;
+}
+
 int runTimer() {
   int result = 0;
 	TIM2->EGR |= 0x0001; 		//Create update event

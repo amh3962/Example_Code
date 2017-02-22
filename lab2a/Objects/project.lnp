@@ -2,7 +2,6 @@
 ".\objects\main.o"
 ".\objects\startup_stm32l476xx.o"
 ".\objects\uart.o"
-".\objects\run.o"
 ".\objects\timer.o"
 ".\objects\console.o"
 ".\objects\sysclock.o"

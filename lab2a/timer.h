@@ -1,3 +1,4 @@
-void initTimer(int);
+void initTimer(void);
+void updateTimer(int, int);
 void initWaitTimer(void);	
-int runTimer(void);	
+void runTimer(void);	

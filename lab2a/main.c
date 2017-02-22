@@ -41,11 +41,12 @@ int main(void){
 				for (int i=0;i<101;i++) {
 						results[i] = 0;
 				}
-        lower = getLimit(lower);    // display and confirm limits
-		    run(lower, results);                 // run
-		    printHistogram(lower, results);      // print histogram
+        lower = getLimit(lower);    				// display and confirm limits
+		    run(lower, results);                // run
+		    printHistogram(lower, results);     // print histogram
 	  }
 		*/
-		initTimer(20);
-		initTimer(20);
+		initWaitTimer();
+		initTimer(4,20);
+		initTimer(20,4);
 }

@@ -28,16 +28,9 @@ void initTimer(void) {
 	TIM5->CR1 &= 0x0000; 			//Reset control register
 	TIM5->CR1 |= 0x0010;		  //Set count direction. 0 = upcount, 1 = downcount
 	TIM5->EGR |= 0x0001;
-	
-	int i;
-	for (i = 0; i < 4000000; i++)
-		;
-	
-	TIM2->CR1 |= 0x0001;	//Start timer (bit 0)
-	return;
 }
 
-void updateTimer(int count1, int count2) {
+void setPulseWidth(int count1, int count2) {
 	// Channel 1
 	TIM2->CCR1 &= 0x0000;		//Reset the pulse width
 	TIM2->CCR1 |= count1;		//Set pulse width
@@ -48,18 +41,9 @@ void updateTimer(int count1, int count2) {
 	TIM2->EGR |= 0x0001;
 }
 
-void initWaitTimer(void) {
-	// direction: 0 for down 1 for up
-	// count: number in microseconds
-
-	return;
-}
-
-void runTimer() {
+void runWaitTimer() {
   int result = 0;
-	TIM5->EGR |= 0x0001; 		//Create update event
 	TIM5->SR &= 0x00000000;
-	
 	TIM5->CR1 |= 0x0001; // Start timer
 
 	while(result == 0)

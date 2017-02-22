@@ -1,4 +1,3 @@
 void initTimer(void);
-void updateTimer(int, int);
-void initWaitTimer(void);	
-void runTimer(void);	
+void setPulseWidth(int, int);
+void runWaitTimer(void);	

@@ -400,11 +400,6 @@
               <FilePath>.\UART.c</FilePath>
             </File>
             <File>
-              <FileName>run.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\run.c</FilePath>
-            </File>
-            <File>
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\timer.c</FilePath>
@@ -448,11 +443,6 @@
               <FileName>init.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\init.c</FilePath>
-            </File>
-            <File>
-              <FileName>run.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\run.h</FilePath>
             </File>
           </Files>
         </Group>

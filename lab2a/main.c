@@ -19,34 +19,12 @@ int main(void){
     System_Clock_Init();
 	  UART2_Init();
     init_pa0();
-	
-    // Intro text
-    /*USART_Write(USART2, (uint8_t *)str, strlen(str));
-	
-    // POST
-	  status = post();
-	  while (status == 0) {   // if POST fails, prompt user to retry
-		  rxByte = postFailure();
-		  if (rxByte == 'Y' || rxByte == 'y'){
-			    status = post();
-		  }
-		  else if (rxByte == 'N' || rxByte == 'n'){
-		    	break;
-		  }
-	  }
+		initTimer();
 		
-		// Run continuously
-	  while (1) {
-				// initialize results
-				for (int i=0;i<101;i++) {
-						results[i] = 0;
-				}
-        lower = getLimit(lower);    				// display and confirm limits
-		    run(lower, results);                // run
-		    printHistogram(lower, results);     // print histogram
-	  }
-		*/
-		initWaitTimer();
-		initTimer(4,20);
-		initTimer(20,4);
+		// Designate recipe per servo
+	
+		// Start in pause state
+		// When we get a user command		a,b
+		// processEvent(servo1_state,a)
+		// processEvent(servo2_state,b)
 }

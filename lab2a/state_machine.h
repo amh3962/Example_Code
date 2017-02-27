@@ -1,14 +1,3 @@
-// Servo states
-enum servo_position
-{
-	position_0,
-	position_1,
-	position_2,
-	position_3,
-	position_4,
-	position_5
-};
-
 enum recipe_status
 {
 	running,

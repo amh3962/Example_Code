@@ -22,16 +22,40 @@ Dialog DLL:      TCM.DLL V1.14.14.0
  
 <h2>Project:</h2>
 Z:\RealTimeEmbeddedSystems\lab2a\project.uvprojx
-Project File Date:  02/20/2017
+Project File Date:  02/22/2017
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling main.c...
-linking...
-Program Size: Code=1556 RO-data=408 RW-data=0 ZI-data=1632  
-FromELF: creating hex file...
-".\Objects\project.axf" - 0 Error(s), 0 Warning(s).
+compiling recipe.c...
+recipe.c(19): error:  #147-D: declaration is incompatible with "void wait(int, int)" (declared at line 20 of "recipe.h")
+  void wait(int times) {
+recipe.c(22): error:  #147-D: declaration is incompatible with "void loop(int)" (declared at line 22 of "recipe.h")
+  void loop(int times, int start) {
+recipe.c(32): warning:  #223-D: function "runInstruction" declared implicitly
+  		if (p0 != 0) i0 = runInstruction(recipes[0],i0);
+recipe.c(34): warning:  #223-D: function "runInstruction" declared implicitly
+  		if (p1 != 0) i1 = runInstruction(recipes[1],i1);
+recipe.c(27): warning:  #177-D: variable "cmd" was declared but never referenced
+  	char cmd = 0;
+recipe.c(38): error:  #20: identifier "i" is undefined
+  void runInstruction(unsigned char recipe[], i) {
+recipe.c(38): error:  #159: declaration is incompatible with previous "runInstruction" (declared at line 32)
+  void runInstruction(unsigned char recipe[], i) {
+recipe.c(38): error:  #141-D: unnamed prototyped parameters not allowed when body is present
+  void runInstruction(unsigned char recipe[], i) {
+recipe.c(39): error:  #20: identifier "cmd" is undefined
+  	cmd = recipe[i];
+recipe.c(39): error:  #20: identifier "i" is undefined
+  	cmd = recipe[i];
+recipe.c(43): error:  #118: a void function may not return a value
+  		return i;									// don't move on in instructions
+recipe.c(47): error:  #65: expected a ";"
+  	if (cmd & CMD_MASK == WAIT)	// wait
+recipe.c(51): warning:  #12-D: parsing restarts here after previous syntax error
+  	return i++;
+recipe.c: 4 warnings, 9 errors
+".\Objects\project.axf" - 9 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -49,7 +73,8 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.3.0
-Build Time Elapsed:  00:00:02
+Target not created.
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

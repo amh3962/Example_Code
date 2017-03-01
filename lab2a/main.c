@@ -1,9 +1,10 @@
 #include "SysClock.h"
 #include "timer.h"
-#include "run.h"
-#include "console.h"
 #include "UART.h"
 #include "init.h"
+#include "state_machine.h"
+#include "recipe.h"
+#include "console.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -13,6 +14,7 @@ int lower = 950;
 char rxByte;
 char str[] = "\n\nLab 2a - Yura Kim, Aaron Halling\r\n\n";
 int results[100];
+char command[3];
 
 int main(void){
     // Initialize
@@ -20,11 +22,14 @@ int main(void){
 	  UART2_Init();
     init_pa0();
 		initTimer();
-		
-		// Designate recipe per servo
 	
-		// Start in pause state
-		// When we get a user command		a,b
-		// processEvent(servo1_state,a)
-		// processEvent(servo2_state,b)
+		// Intro text
+    USART_Write(USART2, (uint8_t *)str, strlen(str));
+	
+		while(1) {
+				if(checkInput(command)) {	// Check for UART input
+//						process_command();			// process user commands
+				}
+				runInstruction();						// Run next instruction from recipes
+		}
 }

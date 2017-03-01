@@ -444,6 +444,11 @@
               <FileType>1</FileType>
               <FilePath>.\init.c</FilePath>
             </File>
+            <File>
+              <FileName>recipe.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\recipe.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

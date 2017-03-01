@@ -3,8 +3,9 @@
 static enum servo_states servo_state1 = -1;
 static enum servo_states servo_state2 = -1;
 
-void process_event( enum user_command one_event )
+void process_command( enum user_command one_event )
 {
+	((uint8_t)(USARTx->RDR & 0xFF)
 	switch ( servo_state1 )
 	{
 		case -1 :		// Starting from unknown state

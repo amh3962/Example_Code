@@ -27,114 +27,11 @@ Project File Date:  02/27/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling recipe.c...
-recipe.c(4): error:  #130: expected a "{"
-  int i0 = 0;
-recipe.c(15): warning:  #12-D: parsing restarts here after previous syntax error
-  void restartRecipe() {
-recipe.c(16): error:  #20: identifier "i0" is undefined
-  	i0 = 0;
-recipe.c(17): error:  #20: identifier "i1" is undefined
-  	i1 = 0;
-recipe.c(23): error:  #147-D: declaration is incompatible with "void wait(int, int)" (declared at line 17 of "recipe.h")
-  void wait(int times) {
-recipe.c(26): error:  #147-D: declaration is incompatible with "void loop(int)" (declared at line 18 of "recipe.h")
-  void loop(int times, int start) {
-recipe.c(31): error:  #20: identifier "i0" is undefined
-  	while ((recipes[0][i0] != '\0') || (recipes[1][i1] != '\0')) {
-recipe.c(31): error:  #20: identifier "i1" is undefined
-  	while ((recipes[0][i0] != '\0') || (recipes[1][i1] != '\0')) {
-recipe.c(33): warning:  #223-D: function "checkInput" declared implicitly
-  		checkInput();
-recipe.c(36): error:  #20: identifier "s0" is undefined
-  		if (s0 != 0) i0 = runInstruction(recipes[0],i0);
-recipe.c(38): error:  #20: identifier "s1" is undefined
-  		if (s1 != 0) i1 = runInstruction(recipes[1],i1);
-recipe.c(42): error:  #247: function "runInstruction" has already been defined
-  void runInstruction(unsigned char recipe[], int i) {
-recipe.c: 2 warnings, 10 errors
-compiling main.c...
-console.h(3): error:  #130: expected a "{"
-  int checkInput(char*);
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(352): error:  #20: identifier "size_t" is undefined
-                     int /*mode*/, size_t /*size*/) __attribute__((__nonnull__(1)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(435): error:  #20: identifier "size_t" is undefined
-  extern 
-ARMABI int __ARM_snprintf(char * __restrict /*s*/, size_t /*n*/,
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(440): error:  #20: identifier "size_t" is undefined
-  extern 
-ARMABI int snprintf(char * __restrict /*s*/, size_t /*n*/,
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(461): error:  #20: identifier "size_t" is undefined
-  extern 
-ARMABI int _snprintf(char * __restrict /*s*/, size_t /*n*/,
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(551): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int vfscanf(FILE * __restrict /*stream*/, const char * __restrict /*format*/, __va_list) __attribute__((__nonnull__(1,2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(552): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int vscanf(const char * __restrict /*format*/, __va_list) __attribute__((__nonnull__(1)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(553): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int vsscanf(const char * __restrict /*s*/, const char * __restrict /*format*/, __va_list) __attribute__((__nonnull__(1,2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(555): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int _vfscanf(FILE * __restrict /*stream*/, const char * __restrict /*format*/, __va_list) __attribute__((__nonnull__(1,2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(556): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int _vscanf(const char * __restrict /*format*/, __va_list) __attribute__((__nonnull__(1)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(557): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int _vsscanf(const char * __restrict /*s*/, const char * __restrict /*format*/, __va_list) __attribute__((__nonnull__(1,2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(558): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int __ARM_vsscanf(const char * __restrict /*s*/, const char * __restrict /*format*/, __va_list) __attribute__((__nonnull__(1,2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(560): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int vprintf(const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(1)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(568): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int _vprintf(const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(1)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(575): error:  #20: identifier "__va_list" is undefined
-                      const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(1,2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(585): error:  #20: identifier "__va_list" is undefined
-                       const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(1,2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(594): error:  #20: identifier "size_t" is undefined
-  extern 
-ARMABI int __ARM_vsnprintf(char * __restrict /*s*/, size_t /*n*/,
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(595): error:  #20: identifier "__va_list" is undefined
-                       const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(3)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(597): error:  #20: identifier "size_t" is undefined
-  extern 
-ARMABI int vsnprintf(char * __restrict /*s*/, size_t /*n*/,
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(598): error:  #20: identifier "__va_list" is undefined
-                       const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(3)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(610): error:  #20: identifier "__va_list" is undefined
-                        const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(1,2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(617): error:  #20: identifier "__va_list" is undefined
-                       const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(1,2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(623): error:  #20: identifier "size_t" is undefined
-  extern 
-ARMABI int _vsnprintf(char * __restrict /*s*/, size_t /*n*/,
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(624): error:  #20: identifier "__va_list" is undefined
-                        const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(3)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(633): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int vasprintf(char ** /*strp*/, const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(637): error:  #20: identifier "__va_list" is undefined
-  extern 
-ARMABI int __ARM_vasprintf(char ** /*strp*/, const char * __restrict /*format*/, __va_list /*arg*/) __attribute__((__nonnull__(2)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(778): error:  #20: identifier "size_t" is undefined
-  extern 
-ARMABI size_t fread(void * __restrict /*ptr*/,
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(779): error:  #20: identifier "size_t" is undefined
-                      size_t /*size*/, size_t /*nmemb*/, FILE * __restrict /*stream*/) __attribute__((__nonnull__(1,4)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(779): error:  #20: identifier "size_t" is undefined
-                      size_t /*size*/, size_t /*nmemb*/, FILE * __restrict /*stream*/) __attribute__((__nonnull__(1,4)));
-C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h(794): error:  #20: identifier "size_t" is undefined
-  extern 
-ARMABI size_t __fread_bytes_avail(void * __restrict /*ptr*/,
-main.c: 0 warnings, 30 errors
-".\Objects\project.axf" - 40 Error(s), 2 Warning(s).
+compiling servo_control.c...
+linking...
+Program Size: Code=2568 RO-data=424 RW-data=148 ZI-data=1636  
+FromELF: creating hex file...
+".\Objects\project.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -152,7 +49,6 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.3.0
-Target not created.
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

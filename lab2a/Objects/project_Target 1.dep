@@ -1,5 +1,5 @@
 Dependencies for Project 'project', Target 'Target 1': (DO NOT MODIFY !)
-F (.\main.c)(0x58B70B35)(-c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\Drivers\CMSIS\Include --c99 -D__MICROLIB-IZ:\RealTimeEmbeddedSystems\lab2a\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32L476xx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\main.c)(0x58B72DE4)(-c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\Drivers\CMSIS\Include --c99 -D__MICROLIB-IZ:\RealTimeEmbeddedSystems\lab2a\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32L476xx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (SysClock.h)(0x58A0BBEF)
 I (stm32l476xx.h)(0x58A0BBEF)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x56265FCC)
@@ -13,8 +13,9 @@ I (timer.h)(0x58AE1CA2)
 I (UART.h)(0x58A0BBEF)
 I (init.h)(0x58A0E321)
 I (state_machine.h)(0x58B4A200)
-I (recipe.h)(0x58B70C38)
-I (console.h)(0x58B70B1E)
+I (servo_control.h)(0x58B74C87)
+I (servo.h)(0x58B74012)
+I (console.h)(0x58B74102)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x574EE6E6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x574EE6E6)
 F (.\startup_stm32l476xx.s)(0x58A0BBEF)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork -IZ:\RealTimeEmbeddedSystems\lab2a\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include--pd "__UVISION_VERSION SETA 521" --pd "_RTE_ SETA 1" --pd "STM32L476xx SETA 1"--list .\listings\startup_stm32l476xx.lst --xref -o .\objects\startup_stm32l476xx.o --depend .\objects\startup_stm32l476xx.d)
@@ -41,8 +42,8 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h)(0x56264C10)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include\system_stm32l4xx.h)(0x56D449DC)
 F (.\timer.h)(0x58AE1CA2)()
 F (.\UART.h)(0x58A0BBEF)()
-F (.\console.c)(0x58B70B1A)(-c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\Drivers\CMSIS\Include --c99 -D__MICROLIB-IZ:\RealTimeEmbeddedSystems\lab2a\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32L476xx-o .\objects\console.o --omf_browse .\objects\console.crf --depend .\objects\console.d)
-I (console.h)(0x58B70B1E)
+F (.\console.c)(0x58B740EF)(-c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\Drivers\CMSIS\Include --c99 -D__MICROLIB-IZ:\RealTimeEmbeddedSystems\lab2a\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32L476xx-o .\objects\console.o --omf_browse .\objects\console.crf --depend .\objects\console.d)
+I (console.h)(0x58B74102)
 I (UART.h)(0x58A0BBEF)
 I (stm32l476xx.h)(0x58A0BBEF)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x56265FCC)
@@ -55,7 +56,7 @@ I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include\system_stm32l4xx.
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x574EE6E6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x574EE6E6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x574EE6E6)
-F (.\console.h)(0x58B70B1E)()
+F (.\console.h)(0x58B74102)()
 F (.\SysClock.c)(0x58A0BBEF)(-c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\Drivers\CMSIS\Include --c99 -D__MICROLIB-IZ:\RealTimeEmbeddedSystems\lab2a\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32L476xx-o .\objects\sysclock.o --omf_browse .\objects\sysclock.crf --depend .\objects\sysclock.d)
 I (SysClock.h)(0x58A0BBEF)
 I (stm32l476xx.h)(0x58A0BBEF)
@@ -78,5 +79,19 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x56264C10)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x56264C10)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h)(0x56264C10)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include\system_stm32l4xx.h)(0x56D449DC)
-F (.\recipe.c)(0x58B70C0F)(-c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\Drivers\CMSIS\Include --c99 -D__MICROLIB-IZ:\RealTimeEmbeddedSystems\lab2a\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32L476xx-o .\objects\recipe.o --omf_browse .\objects\recipe.crf --depend .\objects\recipe.d)
-I (recipe.h)(0x58B70C38)
+F (.\servo_control.h)(0x58B74C87)()
+F (.\servo_control.c)(0x58B74DAB)(-c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\..\..\Drivers\CMSIS\Include --c99 -D__MICROLIB-IZ:\RealTimeEmbeddedSystems\lab2a\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include-D__UVISION_VERSION="521" -D_RTE_ -DSTM32L476xx-o .\objects\servo_control.o --omf_browse .\objects\servo_control.crf --depend .\objects\servo_control.d)
+I (servo_control.h)(0x58B74C87)
+I (servo.h)(0x58B74012)
+I (console.h)(0x58B74102)
+I (UART.h)(0x58A0BBEF)
+I (stm32l476xx.h)(0x58A0BBEF)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x56265FCC)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x574EE6E6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x56264C10)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x56264C10)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x56264C10)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h)(0x56264C10)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include\system_stm32l4xx.h)(0x56D449DC)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x574EE6E6)
+F (.\servo.h)(0x58B74012)()

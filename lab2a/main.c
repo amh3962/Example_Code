@@ -26,7 +26,11 @@ int main(void){
 	// Intro text
 	USART_Write(USART2, (uint8_t *)str, strlen(str));
 
-	while(1) {
+	// Init servos
+	// Move servos
+	// Wait max time it takes to reach
+	
+	while(0) {
 		if(checkInput(command)) {	// Check for UART input
 //			process_command(command);			// process user commands
 		}

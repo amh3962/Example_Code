@@ -9,3 +9,5 @@ void endLoopCommand(Servo*);
 void run(void);
 void runInstruction(Servo*, unsigned char);
 unsigned char getInstruction(Servo*);
+int positionToPWMCount(int);
+void moveServos(void);

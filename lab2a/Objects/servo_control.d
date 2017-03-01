@@ -12,3 +12,4 @@
 .\objects\servo_control.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h
 .\objects\servo_control.o: C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\1.2.0\Device\Include\system_stm32l4xx.h
 .\objects\servo_control.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\servo_control.o: timer.h

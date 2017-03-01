@@ -1,6 +1,7 @@
 #include "servo_control.h"
 #include "console.h"
 #include <string.h>
+#include "timer.h"
 
 #define MOV  				(0x20)
 #define WAIT 				(0x40)
@@ -12,7 +13,7 @@
 
 // Given demo; end recipe then move; command error then move
 unsigned char recipe0[] = { MOV+0,MOV+5,MOV+0,MOV+3,LOOP+0,MOV+1,MOV+4,END_LOOP,MOV+0,MOV+2,WAIT+0,MOV+3,WAIT+0,MOV+2,MOV+3,WAIT+31,WAIT+31,WAIT+31,MOV+4,RECIPE_END,MOV+0,0xFF,MOV+5,'\0' };
-//unsigned char recipe0[] = { MOV+0,LOOP+31,MOV+1,END_LOOP,MOV+2 };
+//unsigned char recipe0[] = { MOV+0,LOOP+31,MOV+1,END_LOOP,MOV+2,'\0' };
 // Right to left; left to right; nested loop error then move
 unsigned char recipe1[] = { MOV|0,MOV|1,MOV|2,MOV|3,MOV|4,MOV|5,MOV|4,MOV|3,MOV|2,MOV|1,MOV|0,LOOP+0,MOV|2,LOOP+2,MOV|3,END_LOOP,MOV|5,END_LOOP,MOV+2,'\0' };
 
@@ -49,9 +50,30 @@ void restartRecipe(Servo *servo) {
  * Moves a servo to a position
  */
 void moveCommand(Servo* servo, int pos) {
-	// TODO: move servo to position
-	// update servo position value
+	// move servo to position
 	servo->position = pos;
+	moveServos();
+	// wait for servos to move
+	waitCommand(servo,servo->position-pos);
+}
+
+/**
+ * Moves both servos to their positions
+ */
+void moveServos() {
+	// TODO: move servo to position
+	int s0PWM = positionToPWMCount(servo0.position);
+	int s1PWM = positionToPWMCount(servo1.position);
+	setPulseWidth(s0PWM, s1PWM);
+}
+
+/**
+ * Converts a servo position to PWM in count
+ * .38ms - 2.1ms
+ * 
+ */
+int positionToPWMCount(int pos) {
+	return 30400 + (pos * 27520000);
 }
 
 /**

@@ -445,9 +445,19 @@
               <FilePath>.\init.c</FilePath>
             </File>
             <File>
-              <FileName>recipe.c</FileName>
+              <FileName>servo_control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\servo_control.h</FilePath>
+            </File>
+            <File>
+              <FileName>servo_control.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\recipe.c</FilePath>
+              <FilePath>.\servo_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\servo.h</FilePath>
             </File>
           </Files>
         </Group>

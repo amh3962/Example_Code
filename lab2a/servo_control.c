@@ -45,12 +45,12 @@ Servo servo1 = {
  */
 void initServos() {
 	// move the servos to the starting position
-	servo0.position = 0;
-	servo1.position = 1;
+	servo0.position = 2;
+	servo1.position = 3;
 	moveServos();
 	// wait for servos to move
-	waitCommand(&servo0,abs(5));
-	waitCommand(&servo1,abs(5));
+	waitCommand(&servo0,abs(6));
+	waitCommand(&servo1,abs(6));
 	// start the recipes on the servos
 	continueCommand(&servo0);
 	continueCommand(&servo1);
@@ -84,13 +84,41 @@ void moveServos() {
 
 /**
  * Converts a servo position to PWM in count
- * 2% = .38ms = 38
- * 10% = 2.1ms = 210
- * 38, 72, 106, 140, 174, 208
+ * 2% = .4ms = 4
+ * 10% = 2ms = 20
+ * 4, 7, 10, 13, 16, 19 - for relatively equal spacing
  * 
  */
 int positionToPWMCount(int pos) {
-	return 38 + (pos * 34);
+  if(pos == 0)
+  {
+    return 4;
+  }
+  
+  if(pos == 1)
+  {
+    return 7;
+  }
+  
+  if(pos == 2)
+  {
+    return 10;
+  }
+  
+  if(pos == 3)
+  {
+    return 13;
+  }
+  
+  if(pos == 4)
+  {
+    return 16;
+  }
+  
+  if(pos == 5)
+  {
+    return 19;
+  }
 }
 
 /**
@@ -110,6 +138,8 @@ void waitCommand(Servo* servo, int times) {
 void pauseCommand(Servo* servo) {
 	// set the servo running flag off
 	servo->running = 0;
+  //start wait timer
+  TIM5->CR1 |= 0x0001;
 }
 
 /**
@@ -119,6 +149,8 @@ void pauseCommand(Servo* servo) {
 void continueCommand(Servo* servo) {
 	// set the servo running flag off
 	servo->running = 1;
+  //Stop Wait Timer
+  TIM5->CR1 &= 0xFFFE;
 }
 
 /**
@@ -189,16 +221,19 @@ void runInstruction(Servo* servo, unsigned char instruction) {
 		servo->i++;
 	}
 	else {
-		// The servo is paused
-		// TODO: Check for the wait timer to signal continue
-		/*
-		if (100ms has passed since last) {
+		// The servo is paused  
+    //Chech for end of 100ms timer count
+    
+    //Use TIM5->SR &= 0x0001 to check timer 5 end of count
+    //Use TIM2->SR &= 0x0001 to check timer 2 end of count
+    //TODO: Assign a wait timer to each servo
+    
+		/*if (TIM5->SR &= 0x0001) {
       servo->waitcount--;
 		   if (servo->waitcount == 0) {
 		     continueCommand(servo);
 		   }
-		 }
-		*/
+		 }*/
 	}
 }
 

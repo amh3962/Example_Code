@@ -21,6 +21,7 @@ int main(void){
 	System_Clock_Init();
 	UART2_Init();
 	init_pa0();
+  LED_Init();
 	initTimer();
 
 	// Intro text

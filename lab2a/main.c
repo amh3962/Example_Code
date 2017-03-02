@@ -30,9 +30,10 @@ int main(void){
 	initServos();
 	
 	while(1) {
-		if(checkInput(command)) {	// Check for UART input
-//			process_command(command);			// process user commands
+		if(checkInput(command)) {					// Check for user command
+			// TODO: process user commands
+			// process_command(command);		// Process user commands
 		}
-		run();										// Run next instruction from recipes
+		run();														// Run next instruction from recipes
 	}
 }

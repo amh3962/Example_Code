@@ -9,9 +9,9 @@ void initTimer(void) {
 	RCC->APB1ENR1 |= 0x00000009;
 	
 	//Timer 2 Setup
-	TIM2->PSC = 0x1f40;  		//Timer Prescaler = 8000; 100 microseconds
+	TIM2->PSC = 800;  		//Timer Prescaler = 800; 10 microseconds
 	TIM2->EGR |= 0x0001; 		//Create update event
-	TIM2->ARR = 0x00c8; 		//Set auto-load value; 200 for 20 milliseconds
+	TIM2->ARR = 2000; 		//Set auto-load value; 2000 for 20 milliseconds
 	TIM2->CCER &= 0x0000;		//Turn off input enable
 	TIM2->CCMR1 &= 0x0000;
 	TIM2->CCMR1 |= 0x6868;  //Input Capture pwm mode 1 for channel 1 & 2
@@ -29,10 +29,10 @@ void initTimer(void) {
 	TIM5->CR1 |= 0x0010;		  //Set count direction. 0 = upcount, 1 = downcount
 	TIM5->EGR |= 0x0001;
 	
-	setPulseWidth(100,30400);
+	setPulseWidth(38,210);
 }
 
-// count is 200 for 20 milliseconds
+// count is 2000 for 20 milliseconds
 void setPulseWidth(int count1, int count2) {
 	// Channel 1
 	TIM2->CCR1 &= 0x0000;		//Reset the pulse width

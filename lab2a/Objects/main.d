@@ -11,9 +11,9 @@
 .\objects\main.o: timer.h
 .\objects\main.o: UART.h
 .\objects\main.o: init.h
-.\objects\main.o: state_machine.h
 .\objects\main.o: servo_control.h
 .\objects\main.o: servo.h
 .\objects\main.o: console.h
+.\objects\main.o: led.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

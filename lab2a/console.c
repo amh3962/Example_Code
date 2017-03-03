@@ -21,9 +21,7 @@ int checkInput(char *command) {
 			// We already have two commands from the user
 			// Wait for enter key, accept no more inputs
 			if (c == '\r') {
-				command[cmd_count]='\0';
 				cmd_count = 0;	// Reset command count
-				command[1] = '\0';
 				// Print newline
 				const char newLine[4] = " \r\n";
 				USART_Write(USART2, (uint8_t *)newLine, strlen(newLine));
@@ -32,9 +30,12 @@ int checkInput(char *command) {
 		}
 		// We are able to accept more input from the user
 		else {
-			command[cmd_count] = c;
-			USART_Write(USART2, (uint8_t*)command+cmd_count, strlen(command+cmd_count));
-			cmd_count++;
+			if ((c > 64 && c < 91) || (c > 96 && c < 123)) {
+				command[cmd_count] = c;
+				command[cmd_count+1] = '\0';
+				USART_Write(USART2, (uint8_t*)command+cmd_count, strlen(command+cmd_count));
+				cmd_count++;
+			}
 		}
 	}
 	return 0;

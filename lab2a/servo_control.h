@@ -7,8 +7,6 @@ void restartRecipe(Servo*);
 // Recipe commands
 void moveCommand(Servo*, int);
 void waitCommand(Servo*, int);
-void pauseCommand(Servo*);
-void continueCommand(Servo*);
 void loopCommand(Servo*, int);
 void endLoopCommand(Servo*);
 
@@ -17,7 +15,17 @@ void run(void);
 void runInstruction(Servo*, unsigned char);
 unsigned char getInstruction(Servo*);
 
+// Servo states
+void nestedLoopError(Servo*);
+void commandError(Servo*);
+void recipePause(Servo*);
+void recipeContinue(Servo*);
+
 // Interacts with hardware level code
 int positionToPWMCount(int);
 void moveServos(void);
-void decrementWait(void);
+void decrementWait(Servo*);
+
+// User commands
+int processCommands(char*);
+int processCommand(Servo*, char);

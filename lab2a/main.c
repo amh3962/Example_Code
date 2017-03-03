@@ -2,18 +2,15 @@
 #include "timer.h"
 #include "UART.h"
 #include "init.h"
-#include "state_machine.h"
 #include "servo_control.h"
 #include "console.h"
+#include "led.h"
 
 #include <string.h>
 #include <stdio.h>
 
-int status;
-int lower = 950;
-char rxByte;
 char str[] = "\n\nLab 2a - Yura Kim, Aaron Halling\r\n\n";
-int results[100];
+char err_str[] = "User command error(s).\r\n";
 char command[3];
 
 int main(void){
@@ -31,10 +28,13 @@ int main(void){
 	initServos();
 	
 	while(1) {
-		if(checkInput(command)) {					// Check for user command
-			// TODO: process user commands
-			// process_command(command);		// Process user commands
+		if(checkInput(command)) {							// Check for user command
+			// At this point command is a string of two alphabet characters
+			int err = !processCommands(command);	// Process user commands
+			if (err) {
+				USART_Write(USART2, (uint8_t *)err_str, strlen(err_str));
+			}
 		}
-		run();														// Run next instruction from recipes
+		run();																// Run next instruction from recipes
 	}
 }

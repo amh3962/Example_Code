@@ -1,3 +1,4 @@
 #include "stm32l476xx.h"
 
 void init_pa0( void );
+void LED_Init(void);

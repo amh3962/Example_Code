@@ -29,7 +29,7 @@ void initTimer(void) {
 	TIM5->CR1 |= 0x0010;		  //Set count direction. 0 = upcount, 1 = downcount
 	TIM5->EGR |= 0x0001;
 	
-	setPulseWidth(38,210);
+	runWaitTimer();
 }
 
 // count is 2000 for 20 milliseconds
@@ -46,10 +46,11 @@ void setPulseWidth(int count1, int count2) {
 }
 
 void runWaitTimer() {
-  int result = 0;
+  //int result = 0;
 	TIM5->SR &= 0x00000000;
 	TIM5->CR1 |= 0x0001; // Start timer
 
+	/*
 	while(result == 0)
 	{
 		if((TIM5->SR) & 0x0001) // Check for end of count
@@ -58,4 +59,14 @@ void runWaitTimer() {
 			return;
 		}
 	}
+	*/
+}
+
+int checkWait() {
+	if((TIM5->SR) & 0x0001) // Check for end of count
+	{
+		TIM5->CR1 &= 0xFFFE;
+		return 1;
+	}
+	return 0;
 }

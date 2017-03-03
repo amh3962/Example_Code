@@ -14,7 +14,7 @@
 
 // Given demo; end recipe then move; command error then move
 //unsigned char recipe0[] = { MOV+0,MOV+5,MOV+0,MOV+3,LOOP+0,MOV+1,MOV+4,END_LOOP,MOV+0,MOV+2,WAIT+0,MOV+3,WAIT+0,MOV+2,MOV+3,WAIT+31,WAIT+31,WAIT+31,MOV+4,RECIPE_END,MOV+0,0xFF,MOV+5,'\0' };
-unsigned char recipe0[] = { MOV+0,LOOP+31,MOV+1,END_LOOP,MOV+2,'\0' };
+unsigned char recipe0[] = { MOV+0,LOOP+31,MOV+1,MOV+5,END_LOOP,MOV+2,'\0' };
 // Right to left; left to right; nested loop error then move
 unsigned char recipe1[] = { MOV|0,MOV|1,MOV|2,MOV|3,MOV|4,MOV|5,MOV|4,MOV|3,MOV|2,MOV|1,MOV|0,LOOP+0,MOV|2,LOOP+2,MOV|3,END_LOOP,MOV|5,END_LOOP,MOV+2,'\0' };
 
@@ -46,14 +46,11 @@ Servo servo1 = {
 void initServos() {
 	// move the servos to the starting position
 	servo0.position = 0;
-	servo1.position = 1;
+	servo1.position = 0;
 	moveServos();
 	// wait for servos to move
 	waitCommand(&servo0,abs(5));
 	waitCommand(&servo1,abs(5));
-	// start the recipes on the servos
-	continueCommand(&servo0);
-	continueCommand(&servo1);
 }
 
 /**
@@ -153,10 +150,10 @@ void run() {
 	if (instruction != '\0') {			// While not end of recipe
 		runInstruction(&servo0, instruction);
 	}
-	instruction = getInstruction(&servo1);
-	if (instruction != '\0') {			// While not end of recipe
-		runInstruction(&servo1, instruction);
-	}
+	//instruction = getInstruction(&servo1);
+	//if (instruction != '\0') {			// While not end of recipe
+	//	runInstruction(&servo1, instruction);
+	//}
 }
 
 /**
@@ -165,7 +162,7 @@ void run() {
 void runInstruction(Servo* servo, unsigned char instruction) {
 	// DEBUG
 	// print instruction index being run
-	// printInt(servo->i);
+	printInt(servo->i);
 	
 	if (servo->running) {
 		// The servo is running
@@ -190,18 +187,34 @@ void runInstruction(Servo* servo, unsigned char instruction) {
 	}
 	else {
 		// The servo is paused
-		// TODO: Check for the wait timer to signal continue
-		/*
-		if (100ms has passed since last) {
-      servo->waitcount--;
-		   if (servo->waitcount == 0) {
-		     continueCommand(servo);
-		   }
-		 }
-		*/
+		// Check timer5 for 100ms
+		if (checkWait()) decrementWait();
+		// Check the wait status for both servos
+		// If we only check this one and the other servo has a wait timer that stops at the same time, we'll be 1 wait count late for the other
 	}
 }
 
+/**
+ * Get the next instruction for the serv
+ */
 unsigned char getInstruction(Servo* servo) {
 	return servo->recipe[servo->i];
+}
+
+/**
+ * Checks servos for wait status
+ */
+void decrementWait() {
+	if (!servo0.running) {						// Servo 0 is paused
+    servo0.waitcount--;							// Decrement wait count
+		  if (servo0.waitcount == 0) {	// If the wait is done
+		    continueCommand(&servo0);			// Run the servo
+		}
+	}
+	if (!servo1.running) {						// Servo 1 is paused
+		servo1.waitcount--;							// Decrement wait count
+		  if (servo1.waitcount == 0) {	// If the wait is done
+		    continueCommand(&servo1);		// Run the servo
+		}
+	}
 }

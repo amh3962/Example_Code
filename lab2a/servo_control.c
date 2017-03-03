@@ -15,9 +15,9 @@
 
 // Given demo; end recipe then move; command error then move
 unsigned char recipe0[] = { MOV+0,MOV+5,MOV+0,MOV+3,LOOP+0,MOV+1,MOV+4,END_LOOP,MOV+0,MOV+2,WAIT+0,MOV+3,WAIT+0,MOV+2,MOV+3,WAIT+31,WAIT+31,WAIT+31,MOV+4,RECIPE_END,MOV+0,0xFF,MOV+5,'\0' };
-//unsigned char recipe1[] = { MOV+0,WAIT+31,LOOP+31,MOV+5,MOV+0,END_LOOP,MOV+2,'\0' };
+unsigned char recipe1[] = { MOV+0,WAIT+31,LOOP+31,MOV+5,MOV+0,END_LOOP,MOV+2,'\0' };
 // Right to left; left to right; nested loop error then move
-unsigned char recipe1[] = { MOV|0,MOV|1,MOV|2,MOV|3,MOV|4,MOV|5,MOV|4,MOV|3,MOV|2,MOV|1,MOV|0,LOOP+0,MOV|2,LOOP+2,MOV|3,END_LOOP,MOV|5,END_LOOP,MOV+2,'\0' };
+//unsigned char recipe1[] = { MOV|0,MOV|1,MOV|2,MOV|3,MOV|4,MOV|5,MOV|4,MOV|3,MOV|2,MOV|1,MOV|0,LOOP+0,MOV|2,LOOP+2,MOV|3,END_LOOP,MOV|5,END_LOOP,MOV+2,'\0' };
 
 Servo servo0 = {
 	.recipe = recipe0,
@@ -76,6 +76,8 @@ void restartRecipe(Servo *servo) {
  */
 void moveCommand(Servo* servo, int pos) {
 	// wait for servo to move
+	printInt(servo->position);
+	printInt(pos);
 	servo->position = pos;
 	moveServos();
 	waitCommand(servo,abs(servo->position-pos)*2);
@@ -296,16 +298,16 @@ int processCommand(Servo* servo, char command) {
 	if (command == 'R' || command == 'r') {
 		// Move servo right
 		// Does not work if recipe is running
-		if (!(servo->running) || (servo->position == 0)) {
-			servo->position = servo->position-1;
+		if (!(servo->running) && (servo->position > 0)) {
+			moveCommand(servo, servo->position-1);
 		}
 		return 1;
 	}
 	if (command == 'L' || command == 'l') {
 		// Move servo left
 		// Does not work if recipe is running
-		if (!(servo->running) || (servo->position == 5)) {
-			servo->position = servo->position+1;
+		if (!(servo->running) && (servo->position < 5)) {
+			moveCommand(servo, servo->position+1);
 		}
 		return 1;
 	}

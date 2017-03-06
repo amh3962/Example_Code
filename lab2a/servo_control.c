@@ -14,10 +14,11 @@
 #define VALUE_MASK	(0x1F)
 
 // Given demo; end recipe then move; command error then move
-unsigned char recipe0[] = { MOV+0,MOV+5,MOV+0,MOV+3,LOOP+0,MOV+1,MOV+4,END_LOOP,MOV+0,MOV+2,WAIT+0,MOV+3,WAIT+0,MOV+2,MOV+3,WAIT+31,WAIT+31,WAIT+31,MOV+4,RECIPE_END,MOV+0,0xFF,MOV+5,'\0' };
-unsigned char recipe1[] = { MOV+0,WAIT+31,LOOP+31,MOV+5,MOV+0,END_LOOP,MOV+2,'\0' };
+unsigned char recipe0[] = { MOV+0,MOV+5,MOV+0,MOV+3,LOOP+0,MOV+1,MOV+4,END_LOOP,MOV+0,MOV+2,WAIT+0,MOV+3,WAIT+0,MOV+2,MOV+3,WAIT+31,WAIT+31,WAIT+31,MOV+4,MOV+0,0xFF,'\0' };
+unsigned char recipe1[] = { MOV+0,WAIT+31,LOOP+2,MOV+5,MOV+0,END_LOOP,RECIPE_END,MOV+5,MOV+2,LOOP+2,LOOP+0,'\0' };
 // Right to left; left to right; nested loop error then move
 //unsigned char recipe1[] = { MOV|0,MOV|1,MOV|2,MOV|3,MOV|4,MOV|5,MOV|4,MOV|3,MOV|2,MOV|1,MOV|0,LOOP+0,MOV|2,LOOP+2,MOV|3,END_LOOP,MOV|5,END_LOOP,MOV+2,'\0' };
+//unsigned char recipe1[] = { MOV+0,WAIT+31,MOV+1,WAIT+31,MOV+2,WAIT+31,MOV+3,WAIT+31,MOV+4,WAIT+31,MOV+5,WAIT+31,RECIPE_END };
 
 Servo servo0 = {
 	.recipe = recipe0,
@@ -76,11 +77,10 @@ void restartRecipe(Servo *servo) {
  */
 void moveCommand(Servo* servo, int pos) {
 	// wait for servo to move
-	printInt(servo->position);
-	printInt(pos);
+	int wait = abs(servo->position-pos) * 2;
 	servo->position = pos;
 	moveServos();
-	waitCommand(servo,abs(servo->position-pos)*2);
+	waitCommand(servo,wait);
 }
 
 /**
@@ -97,8 +97,10 @@ void moveServos() {
  */
 void nestedLoopError(Servo* servo) {
 	// update LED with state - green off, red on
+	char err_str[] = "Nested loop error.\r\n";
 	greenLEDOff();
 	redLEDOn();
+	USART_Write(USART2, (uint8_t *)err_str, strlen(err_str));
 }
 
 /**
@@ -106,8 +108,10 @@ void nestedLoopError(Servo* servo) {
  */
 void commandError(Servo* servo) {
 	// update LED with state - green on, red on
+	char err_str[] = "Command error.\r\n";
 	greenLEDOn();
 	redLEDOn();
+	USART_Write(USART2, (uint8_t *)err_str, strlen(err_str));
 }
 
 /**
@@ -120,8 +124,10 @@ void recipePause(Servo* servo) {
   // start wait timer
 	startTimer(servo->waittimer);
 	// update LED with state - green off, red off
-	greenLEDOff();
-	redLEDOff();
+	if (servo->paused) {
+		greenLEDOff();
+		redLEDOff();
+	}
 }
 
 /**
@@ -146,7 +152,25 @@ void recipeContinue(Servo* servo) {
  * 
  */
 int positionToPWMCount(int pos) {
-	return (4 + (pos*3));
+	if (pos == 0) {
+		return 50;
+	}
+	if (pos == 1) {
+		return 80;
+	}
+	if (pos == 2) {
+		return 110;
+	}
+	if (pos == 3) {
+		return 140;
+	}
+	if (pos == 4) {
+		return 170;
+	}
+	if (pos == 5) {
+		return 200;
+	}
+	return 50;
 }
 
 /**
@@ -187,13 +211,17 @@ void endLoopCommand(Servo* servo) {
  */
 void run() {
 	unsigned char instruction = getInstruction(&servo0);
-	//if (instruction != '\0') {			// While not end of recipe
-	//	runInstruction(&servo0, instruction);
-	//}
+	if (instruction != '\0') {			// While not end of recipe
+		runInstruction(&servo0, instruction);
+	}
 	instruction = getInstruction(&servo1);
 	if (instruction != '\0') {			// While not end of recipe
 		runInstruction(&servo1, instruction);
 	}
+	//if (servo0.paused && servo1.paused && servo0.waitcount == 0 && servo1.waitcount == 0) {
+	//	greenLEDOff();
+	//	redLEDOff();
+	//}
 }
 
 /**
@@ -207,9 +235,6 @@ void runInstruction(Servo* servo, unsigned char instruction) {
 	if (servo->running) {
 		// The servo is running
 		switch(instruction & CMD_MASK) {
-			case 0:
-				// This is an error opcode
-				break;
 			case MOV:
 				moveCommand(servo, instruction & VALUE_MASK);
 				break;
@@ -220,10 +245,15 @@ void runInstruction(Servo* servo, unsigned char instruction) {
 				loopCommand(servo, instruction & VALUE_MASK);
 				break;
 			case END_LOOP:
+				// recipe end is indicated by a paused recipe without a waitcount
 				endLoopCommand(servo);
 				break;
-			// RECIPE_END doesn't do anything
-			// recipe end is indicated by a paused recipe without a waitcount
+			case RECIPE_END:
+				recipePause(servo);
+				break;
+			default:
+				commandError(servo);
+				break;
 		}
 		servo->i++;
 	}
@@ -266,7 +296,13 @@ void decrementWait(Servo* servo) {
  * return 1 if success, 0 if error(s)
  */
 int processCommands(char* commands) {
-	return processCommand(&servo0, commands[0]) && processCommand(&servo1, commands[1]);
+	if (processCommand(&servo0, commands[0]) && processCommand(&servo1, commands[1])) {
+		return 1;
+	}
+	else {
+		commandError(&servo0);
+		return 0;
+	}
 }
 
 /*

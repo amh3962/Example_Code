@@ -1,15 +1,9 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <signal.h>
-#include <time.h>
-#include <math.h>
-#include <pthread.h>
-#include <semaphore.h>
-#include "customer_teller.h"
+#include "lab4.h"
 
 #define NUM_TELLERS 3
 #define NUM_SECONDS_IN_DAY 25200
 #define US_IN_SECOND 0
+#define MAX_CUSTOMERS_IN_DAY = 254
 
 
 // Variables to aide in metric calculation
@@ -22,26 +16,49 @@ int max_depth_queue = 0;
 int max_transaction_time = 0;
 
 
+// Customer queue
+Node* front = NULL;
+Node* back = NULL;
+
+
 int main(int argc, char *argv[]) {
 	// Create customers
+	Customer *cust_gen[MAX_CUSTOMERS_IN_DAY];
+	int cust_index = 0;
+	// Set total_customers_served
 
 	// Initialize simulation timer
 	// 100 us / second
+	int current_time = 0;
 
 	// Start timer
 
 	// Run the simulation
 	// Run until all tellers are waiting and the end of day has been reached
 	while(1) {
-		// As customers arrive, check the semaphore to see if a teller is available
-		// If a teller is available, send the customer to the teller
-		// If all tellers are busy, send the customer to the queue
+		// Check if a transaction is done
+
+		// Check for arrival of customer
+		if (current_time < NUM_SECONDS_IN_DAY) {
+			if (cust_gen[cust_index]->arrival_time == current_time) {
+				// A new customer has arrived
+				Customer* c = cust_gen[cust_index];
+				// Add the customer to the queue
+				enqueue(front,back,c);
+				cust_index++;
+			}
+		}
+
+		// If teller(s) are free, find them customers
+		if (semaphore) {
+			return;
+		}
 	}
 
 	// Calculate and print metrics
 	printMetrics();
 
-	return EXIT_SUCCESS;
+	return 1;
 }
 
 

@@ -1,9 +1,21 @@
 #include "lab4.h"
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <signal.h>
+#include <time.h>
+#include <math.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include "customer.h"
+#include "teller.h"
+#include "customer_queue.h"
+#include "timer.c"
+
 #define NUM_TELLERS 3
 #define NUM_SECONDS_IN_DAY 25200
-#define US_IN_SECOND 0
-#define MAX_CUSTOMERS_IN_DAY = 254
+#define US_IN_SECOND 100
+#define MAX_CUSTOMERS_IN_DAY 254
 
 
 // Variables to aide in metric calculation
@@ -21,20 +33,28 @@ Node* front = NULL;
 Node* back = NULL;
 
 
+// Teller threads
+pthread_t teller1;
+pthread_t teller2;
+pthread_t teller3;
+
+
 int main(int argc, char *argv[]) {
-	// Create customers
+	// Generate customers
 	Customer *cust_gen[MAX_CUSTOMERS_IN_DAY];
-	int cust_index = 0;
-	// Set total_customers_served
+	total_customers_served = generateCustomers(cust_gen, NUM_SECONDS_IN_DAY);
 
 	// Initialize simulation timer
 	// 100 us / second
 	int current_time = 0;
 
 	// Start timer
+	timer_init();
+	// TODO: setup time counter to use in timer.c
 
 	// Run the simulation
 	// Run until all tellers are waiting and the end of day has been reached
+	int cust_index = 0;
 	while(1) {
 		// Check if a transaction is done
 
@@ -50,9 +70,6 @@ int main(int argc, char *argv[]) {
 		}
 
 		// If teller(s) are free, find them customers
-		if (semaphore) {
-			return;
-		}
 	}
 
 	// Calculate and print metrics
@@ -78,9 +95,11 @@ void printMetrics() {
 
 }
 
+/*
 char* secondsToString(int seconds) {
 	int min = seconds / 60;
 	int sec = seconds % 60;
 	// Format to return
 	return ("%d minutes, %d seconds",min,sec);
 }
+*/

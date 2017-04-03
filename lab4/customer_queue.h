@@ -1,4 +1,4 @@
-#include "customer_teller.h"
+#include "customer.h"
 
 #ifndef CUSTOMER_QUEUE_H_
 #define CUSTOMER_QUEUE_H_
@@ -8,7 +8,7 @@ typedef struct Node {
 	struct Node* next;
 } Node;
 
-void Enqueue(Node*, Node*, Customer* c);
-Customer* Dequeue(Node*, Node*);
+void enqueue(Node*, Node*, Customer*);
+Customer* dequeue(Node*, Node*);
 
 #endif /* CUSTOMER_QUEUE_H_ */

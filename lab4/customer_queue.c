@@ -3,7 +3,7 @@
 #include "customer_queue.h"
 
 
-void Enqueue(Node* front, Node* back, Customer* c) {
+void enqueue(Node* front, Node* back, Customer* c) {
 	Node* n = (Node*)malloc(sizeof(Node));
 	n->cust = c;
 	n->next = NULL;
@@ -17,7 +17,7 @@ void Enqueue(Node* front, Node* back, Customer* c) {
 }
 
 
-Customer* Dequeue(Node* front, Node* back) {
+Customer* dequeue(Node* front, Node* back) {
 	Node* n = front;
 	if (front == NULL) {
 		return NULL;

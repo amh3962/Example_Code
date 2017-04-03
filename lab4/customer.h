@@ -6,8 +6,7 @@ typedef struct _Customer {
 	int transaction_time;
 } Customer;
 
-typedef struct _Teller {
-	int status;
-} Teller;
+int generateCustomers(Customer *[], int);
+int randRange(int, int);
 
 #endif /* CUSTOMER_TELLER_H_ */

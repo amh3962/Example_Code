@@ -1,5 +1,3 @@
-#include "lab4.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <signal.h>
@@ -10,7 +8,7 @@
 #include "customer.h"
 #include "teller.h"
 #include "customer_queue.h"
-#include "timer.c"
+#include "timer.h"
 
 #define NUM_TELLERS 3
 #define NUM_SECONDS_IN_DAY 25200
@@ -31,52 +29,13 @@ int max_transaction_time = 0;
 // Customer queue
 Node* front = NULL;
 Node* back = NULL;
+pthread_mutex_t mutex;
 
 
 // Teller threads
 pthread_t teller1;
 pthread_t teller2;
 pthread_t teller3;
-
-
-int main(int argc, char *argv[]) {
-	// Generate customers
-	Customer *cust_gen[MAX_CUSTOMERS_IN_DAY];
-	total_customers_served = generateCustomers(cust_gen, NUM_SECONDS_IN_DAY);
-
-	// Initialize simulation timer
-	// 100 us / second
-	int current_time = 0;
-
-	// Start timer
-	timer_init();
-	// TODO: setup time counter to use in timer.c
-
-	// Run the simulation
-	// Run until all tellers are waiting and the end of day has been reached
-	int cust_index = 0;
-	while(1) {
-		// Check if a transaction is done
-
-		// Check for arrival of customer
-		if (current_time < NUM_SECONDS_IN_DAY) {
-			if (cust_gen[cust_index]->arrival_time == current_time) {
-				// A new customer has arrived
-				Customer* c = cust_gen[cust_index];
-				// Add the customer to the queue
-				enqueue(front,back,c);
-				cust_index++;
-			}
-		}
-
-		// If teller(s) are free, find them customers
-	}
-
-	// Calculate and print metrics
-	printMetrics();
-
-	return 1;
-}
 
 
 /*
@@ -92,8 +51,16 @@ void printMetrics() {
 	printf("Maximum teller wait time: %d\n",0);
 	printf("Maximum transaction time for tellers: %d\n", max_transaction_time);
 	printf("Maximum depth of customer queue: %d\n", max_depth_queue);
-
 }
+
+
+void *teller_runner(void *id) {
+	long tid;
+	tid = (long)id;
+	printf("Thread%d!\n", tid);
+	pthread_exit(NULL);
+}
+
 
 /*
 char* secondsToString(int seconds) {
@@ -103,3 +70,48 @@ char* secondsToString(int seconds) {
 	return ("%d minutes, %d seconds",min,sec);
 }
 */
+
+int main(int argc, char *argv[]) {
+	printf("Lab 4 - Yura Kim, Aaron Halling\n\n");
+	// Generate customers
+	Customer *cust_gen[MAX_CUSTOMERS_IN_DAY];
+	total_customers_served = generateCustomers(cust_gen, NUM_SECONDS_IN_DAY);
+
+	// Initialize simulation timer
+	// 100 us / second
+	int current_time = 0;
+
+	// Start timer
+	timer_init();
+	// TODO: setup time counter to use in timer.c
+
+	// Initialize the tellers
+	pthread_create(&teller1, NULL, teller_runner, (void *)1);
+	pthread_create(&teller2, NULL, teller_runner, (void *)2);
+	pthread_create(&teller3, NULL, teller_runner, (void *)3);
+
+	// Run the simulation
+	// Run until all tellers are waiting and the end of day has been reached
+	int cust_index = 0;
+	/*while(front == NULL) {
+		// Check if a transaction is done
+
+		// Check for arrival of customer
+		if (current_time < NUM_SECONDS_IN_DAY) {
+			if (cust_gen[cust_index]->arrival_time == current_time) {
+				// A new customer has arrived
+				Customer* c = cust_gen[cust_index];
+				// Add the customer to the queue
+				enqueue(front,back,c);
+				cust_index++;
+			}
+		}
+
+		// If teller(s) are free, find them customers
+	}
+*/
+	// Calculate and print metrics
+	printMetrics();
+
+	return 1;
+}

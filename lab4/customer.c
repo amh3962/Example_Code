@@ -1,6 +1,7 @@
 #include "customer.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 
 /*
@@ -12,7 +13,8 @@ int generateCustomers(Customer *cust_gen[], int num_seconds_in_day) {
 	while (start_time <= num_seconds_in_day) {
 		Customer* new_cust = malloc(sizeof(Customer));
 		new_cust->arrival_time = start_time;
-		new_cust->transaction_time = randRange(30,480);	// 30-480 seconds
+		int transaction = randRange(30,480);
+		new_cust->transaction_time = transaction;	// 30-480 seconds
 		cust_gen[total_customers] = new_cust;
 		// Update the total number of customers to be served
 		total_customers++;

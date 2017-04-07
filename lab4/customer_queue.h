@@ -8,7 +8,10 @@ typedef struct Node {
 	struct Node* next;
 } Node;
 
-void enqueue(Node*, Node*, Customer*);
-Customer* dequeue(Node*, Node*);
+void enqueue(Customer*);
+Customer* dequeue();
+int isQueueEmpty();
+void printQueue();
+int getMaxDepth();
 
 #endif /* CUSTOMER_QUEUE_H_ */

@@ -5,7 +5,6 @@
 #include "timer.h"
 
 static volatile sig_atomic_t called;
-volatile int current_time = 0;
 
 void timer_init() {
 	//struct sigevent         event; //dont need?
@@ -14,7 +13,7 @@ void timer_init() {
 
 	if (timer_create(CLOCK_REALTIME, NULL, &timer_id)) {
 		printf("Timer create failed");
-		exit(0);
+		//exit(0);
 	}
 
 	itime.it_value.tv_sec = 0;
@@ -39,6 +38,6 @@ void timer_init() {
 
 void handler( int signo ) {
     //Increment Time every 100us
-	current_time++;
+	//current_time++;
 	//kill(getpid(), SIGUSR1);
 }

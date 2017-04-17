@@ -86,7 +86,7 @@ void moveCommand(Servo* servo, int pos) {
 void moveServos() {
 	int s0PWM = positionToPWMCount(servo0.position);
 	int s1PWM = positionToPWMCount(servo1.position);
-	setPulseWidth(s0PWM, s1PWM);
+	//setPulseWidth(s0PWM, s1PWM);
 }
 
 /**
@@ -111,7 +111,7 @@ void recipePause(Servo* servo) {
 	// set the servo running flag off
 	servo->running = 0;
   // start wait timer
-	startTimer(servo->waittimer);
+	//startTimer(servo->waittimer);
 }
 
 /**
@@ -122,7 +122,7 @@ void recipeContinue(Servo* servo) {
 	// set the servo running flag off
 	servo->running = 1;
   // stop Wait Timer
-	stopTimer(servo->waittimer);
+	//stopTimer(servo->waittimer);
 }
 
 /**
@@ -240,7 +240,7 @@ void runInstruction(Servo* servo, unsigned char instruction) {
 		if (servo->paused) return;
 		// Check the wait timer for the servo
 		// Decrement count as needed
-		if (checkWait(servo->waittimer)) decrementWait(servo);
+		//if (checkWait(servo->waittimer)) decrementWait(servo);
 	}
 }
 

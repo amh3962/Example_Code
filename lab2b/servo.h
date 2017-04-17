@@ -1,3 +1,6 @@
+#ifndef SERVO_H_
+#define SERVO_H_
+
 typedef struct _Servo {
   unsigned char* recipe;
 	int position;	// current position
@@ -12,3 +15,5 @@ typedef struct _Servo {
 	int errorstate;	// error
 	int paused;		// user pause
 } Servo;
+
+#endif /* SERVO_H_ */

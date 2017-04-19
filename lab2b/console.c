@@ -26,8 +26,6 @@ void *input_check_runner(void *cmd) {
 	FILE *fp;
 	int c;
 
-	/* Get characters from "file" instead of stdin.
-	 */
 	fp = freopen(STDIN_FILENO , "r", stdin );
 	while( ( c = getchar() ) != EOF ) {
 		putchar(c);

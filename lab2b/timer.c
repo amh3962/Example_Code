@@ -1,4 +1,5 @@
 #include <time.h>
+#include <pthread.h>
 #include <sys/siginfo.h>
 #include <stdint.h>       /* for uintptr_t */
 #include <hw/inout.h>     /* for in*() and out*() functions */
@@ -15,6 +16,9 @@
 uintptr_t ctrl_reg;
 uintptr_t portA;
 uintptr_t portB;
+
+pthread_t timer_A_thread;
+pthread_t timer_B_thread;
 
 timer_t             PWM_A; 
 struct sigevent     PWM_A_Event;
@@ -63,7 +67,7 @@ void timer()
 
 void PWM_A_delay(int delay_A)
 {
-    // setup the timer (20ms delay, 20ms reload)
+    // setup the timer (delay_A, no reload)
     timer_PWM_A.it_value.tv_sec = 0;
     timer_PWM_A.it_value.tv_nsec = delay_A;
     timer_PWM_A.it_interval.tv_sec = 0;
@@ -72,7 +76,7 @@ void PWM_A_delay(int delay_A)
 
 void PWM_B_delay(int delay_B)
 {
-    // setup the timer (20ms delay, 20ms reload)
+    // setup the timer (delay_B, no reload)
     timer_PWM_A.it_value.tv_sec = 0;
     timer_PWM_A.it_value.tv_nsec = delay_B;
     timer_PWM_A.it_interval.tv_sec = 0;
@@ -82,7 +86,11 @@ void PWM_B_delay(int delay_B)
 void * int_thread (void)
 {
     // attach the ISR to IRQ 0
-    InterruptAttach (0, isr_handler, NULL, 0, 0);
+    ThreadCtl( _NTO_TCTL_IO, NULL );
+    InterruptAttach (0, timer_handler, NULL, 0, 0);
+ 
+    pthread_create(&timer_A_thread, NULL, PWM_A_Thread, NULL);
+    pthread_create(&timer_B_thread, NULL, PWM_B_Thread, NULL);
 
     // now service the hardware when the ISR says to
     while (1)
@@ -98,8 +106,51 @@ void * int_thread (void)
     }
 }
 
-event * isr_handler (void, int id)
+void * PWM_A_Thread (void)
 {
-    // This causes the InterruptWait in "int_thread" to unblock.
+    // attach the ISR to IRQ 0
+    InterruptAttach (0, PWM_A_handler, NULL, 0, 0);
+
+    // now service the hardware when the ISR says to
+    while (1)
+    {
+        InterruptWait (NULL, NULL);
+       
+        //Set A0 output Low
+        out8(portA, 0x00);
+    }
+}
+
+void * PWM_B_Thread (void)
+{
+    // attach the ISR to IRQ 0
+    InterruptAttach (0, PWM_B_handler, NULL, 0, 0);
+
+    // now service the hardware when the ISR says to
+    while (1)
+    {
+        InterruptWait (NULL, NULL);
+       
+        //Set B0 output Low
+        out8(portB, 0x00);
+    }
+}
+
+event * timer_handler (void, int timer)
+{
+    // This causes the InterruptWait in "timer_thread" to unblock.
     return (&event);
 }
+
+PWM_A_Event * PWM_A_handler (void, int PWM_A)
+{
+    // This causes the InterruptWait in "PWM_A_thread" to unblock.
+    return (&PWM_A_Event);
+}
+
+PWM_B_Event * PWM_B_handler (void, int PWM_B)
+{
+    // This causes the InterruptWait in "PWM_B_thread" to unblock.
+    return (&PWM_B_Event);
+}
+

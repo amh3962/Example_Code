@@ -19,6 +19,9 @@ struct timespec delay_1;
 struct timespec delay_2;
 struct timespec remainder1;
 struct timespec remainder2;
+struct timespec waittime = {.tv_sec = 0, .tv_nsec = 100000000};
+int PWM1;
+int PWM2;
 
 uintptr_t ctrl_reg;
 uintptr_t portA;
@@ -34,11 +37,19 @@ void pin_init()
   portB = mmap_device_io( PORT_LENGTH, DIOB_Address);
 }
 
-void servo1_thread()
+void period_init()
+{
+	struct _clockperiod clkper;
+	clkper.nsec = 10000;
+	clkper.fract = 0;
+	ClockPeriod(CLOCK_REALTIME, &clkper, NULL, 0);
+}
+
+void *servo1_thread(void *cmd)
 {
   printf("servo1_thread start\n");
   //Starting Position
-  servo1_delay(2000000) //10%
+  servo1_delay(2000000); //10%
   while(1)
   {
     out8(portA, 0x01); //Set portA high
@@ -57,18 +68,19 @@ void servo1_thread()
   }
 }
 
-void servo2_thread()
+void *servo2_thread(void *cmd)
 {
   printf("servo2_thread start\n");
   //Starting Position
-  servo2_delay(2000000) //10%
+  servo2_delay(2000000); //10%
   while(1)
   {
+	//printf("portA High\n");
     out8(portB, 0x01);
     //nanosleep for pulse width
     nanosleep(&delay_2, NULL);
     out8(portB, 0x00);
-    
+   // printf("portA Low\n");
     //Set remaining wait to achieve a period of 20ms
     remainder2.tv_sec = 0;
     remainder2.tv_nsec = 20000000 - PWM2;
@@ -78,15 +90,44 @@ void servo2_thread()
   }
 }
 
-void servo1_delay(int PWM1)
+void *wait1_thread(void *cmd)
 {
-  delay_1.tv_sec = 0;
-  delay_1.tv_nsec = PWM1;
+	wait_time1 = 0;
+	while(1)
+	{
+		while(wait_time1 > 0)
+		{
+			nanosleep(&waittime, NULL);
+			//printf("decrement wait count\n");
+			wait_time1 --;
+		}
+	}
 }
 
-void servo2_delay(int PWM2)
+void *wait2_thread(void *cmd)
 {
-  delay_2.tv_sec = 0;
-  delay_2.tv_nsec = PWM2;
+	wait_time2 = 0;
+	while(1)
+	{
+		while(wait_time2 > 0)
+		{
+			nanosleep(&waittime, NULL);
+			wait_time2 --;
+		}
+	}
+}
+
+void servo1_delay(int delay)
+{
+	PWM1 = delay;
+	delay_1.tv_sec = 0;
+	delay_1.tv_nsec = PWM1;
+}
+
+void servo2_delay(int delay)
+{
+	PWM2 = delay;
+	delay_2.tv_sec = 0;
+	delay_2.tv_nsec = PWM2;
 }
 

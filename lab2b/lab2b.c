@@ -1,26 +1,33 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <errno.h>
 #include <pthread.h>
-#include "console.h"
-#include "timer.h"
+#include "timer2.h"
 #include "servo.h"
 #include "servo_control.h"
-#include <unistd.h>
 #include <sys/procmgr.h>
 #include <sys/neutrino.h>
+#include <termios.h>
+#include <unistd.h>
 
 int privity_err;
 
 // Thread creation
 pthread_t input_check_thread;
-pthread_t timer_thread;
+pthread_t timer1_thread;
+pthread_t timer2_thread;
+pthread_t wait1;
+pthread_t wait2;
+pthread_t run_thread;
 
 // Command buffer
-char *command[3];
+char command[3];
+char buffer[65];
 
 
 int main(int argc, char *argv[]) {
-	procmgr_ability(0,PROCMGR_AID_IO|PROCMGR_AID_INTERRUPT);
+	//procmgr_ability(0,PROCMGR_AID_IO|PROCMGR_AID_INTERRUPT);
 	privity_err = ThreadCtl( _NTO_TCTL_IO, NULL );
 	if ( privity_err == -1 )
 	{
@@ -30,35 +37,28 @@ int main(int argc, char *argv[]) {
 	// Welcome text
 	printf("Lab2b - Yura Kim, Aaron Halling\n");
 
-	//Initialize timer
-	timer_init();
+	pin_init();
+	period_init();
 
-	// Initialize Servos
-		// Set both servos to position 4
-		// Wait for servos to move 3 positions
-
-	// Initialize console thread
-	pthread_create(&input_check_thread, NULL, input_check_runner, (void*) command);
 	// Initialize timer threads
-	pthread_create(&timer_thread, NULL, int_thread, NULL);
+	// PWM timers
+	pthread_create(&timer1_thread, NULL, servo1_thread, (void*) command);
+	pthread_create(&timer2_thread, NULL, servo2_thread, (void*) command);
+	// Wait timers
+	pthread_create(&wait1, NULL, wait1_thread, (void*) command);
+	pthread_create(&wait2, NULL, wait2_thread, (void*) command);
 
-	/*int c;
-	int cmd_i = 0;
+	// Run the program
+	pthread_create(&run_thread, NULL, run, (void*) command);
 
-	while( ( c = getchar() ) != EOF ) {
-		if (cmd_i < 2) {
-			putchar(c);
-			printf("%d\n", cmd_i);
-		}
-		if (c == 0x0A) {
-			printf("linefeed");
-			cmd_i = 0;
-			printf("%d\n", cmd_i);
-		}
-		cmd_i++;
+	// Run the program
+	while(1) {
+		// Check for user input
+		fgets(buffer, 64, stdin);
+		command[0] = buffer[0];
+		command[1] = buffer[1];
+		command[2] = "\0";
 	}
-
-	run();*/
 
 	return EXIT_SUCCESS;
 }

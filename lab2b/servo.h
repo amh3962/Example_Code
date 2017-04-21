@@ -9,8 +9,7 @@ typedef struct _Servo {
 	int loop;		// 1 for in loop, 0 for not in loop
 	int loopstart;	// index for loop start
 	int loopcount;	// counter for loop
-	int waittimer;	// the timer used for the wait command
-	int waitcount;	// counter for wait
+	int *waitcount;	// counter for wait
 	int recipeend;	// the end of the recipe was reached
 	int errorstate;	// error
 	int paused;		// user pause

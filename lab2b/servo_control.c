@@ -1,8 +1,8 @@
 #include "servo_control.h"
-#include "console.h"
 #include <string.h>
 #include <stdlib.h>
-#include "timer.h"
+#include <stdio.h>
+#include "timer2.h"
 
 #define MOV  		(0x20)
 #define WAIT 		(0x40)
@@ -27,8 +27,7 @@ Servo servo0 = {
 	.loop=0,
 	.loopstart=0,
 	.loopcount=0,
-	.waittimer=1,
-	.waitcount=0,
+	.waitcount=&wait_time1,
 	.errorstate=0,
 	.paused=0
 };
@@ -41,11 +40,16 @@ Servo servo1 = {
 	.loop=0,
 	.loopstart=0,
 	.loopcount=0,
-	.waittimer=5,
-	.waitcount=0,
+	.waitcount=&wait_time2,
 	.errorstate=0,
 	.paused=0
 };
+
+int PWM1;
+int PWM2;
+int wait_time1;
+int wait_time2;
+
 
 /**
  * Initializes the servos
@@ -73,6 +77,7 @@ void restartRecipe(Servo *servo) {
  * Moves a servo to a position
  */
 void moveCommand(Servo* servo, int pos) {
+	//printf("moveCommand\n");
 	// wait for servo to move
 	int wait = abs(servo->position-pos) * 2;
 	servo->position = pos;
@@ -84,8 +89,10 @@ void moveCommand(Servo* servo, int pos) {
  * Moves both servos to their positions
  */
 void moveServos() {
-	int s0PWM = positionToPWMCount(servo0.position);
-	int s1PWM = positionToPWMCount(servo1.position);
+	PWM1 = positionToPWMCount(servo0.position);
+	PWM2 = positionToPWMCount(servo1.position);
+	servo1_delay(PWM1);
+	servo2_delay(PWM2);
 	//setPulseWidth(s0PWM, s1PWM);
 }
 
@@ -110,8 +117,6 @@ void commandError(Servo* servo) {
 void recipePause(Servo* servo) {
 	// set the servo running flag off
 	servo->running = 0;
-  // start wait timer
-	//startTimer(servo->waittimer);
 }
 
 /**
@@ -121,8 +126,6 @@ void recipePause(Servo* servo) {
 void recipeContinue(Servo* servo) {
 	// set the servo running flag off
 	servo->running = 1;
-  // stop Wait Timer
-	//stopTimer(servo->waittimer);
 }
 
 /**
@@ -134,39 +137,41 @@ void recipeContinue(Servo* servo) {
  */
 int positionToPWMCount(int pos) {
 	if (pos == 0) {
-		return 50;
+		return 400000;
 	}
 	if (pos == 1) {
-		return 80;
+		return 720000;
 	}
 	if (pos == 2) {
-		return 110;
+		return 1040000;
 	}
 	if (pos == 3) {
-		return 140;
+		return 1360000;
 	}
 	if (pos == 4) {
-		return 170;
+		return 1680000;
 	}
 	if (pos == 5) {
-		return 200;
+		return 2000000;
 	}
-	return 50;
+	return 400000;
 }
 
 /**
  * Pauses a servo and sets the wait count
  */
 void waitCommand(Servo* servo, int times) {
-	servo->waitcount = times+1;
+	//printf("waitCommand\n");
+	*servo->waitcount = times+1;
 	// the count should be decremented by the timer
-	recipePause(servo);
+	servo->running = 0;
 }
 
 /**
  * Runs one recipe instruction for each servo motor
  */
 void loopCommand(Servo* servo, int times) {
+	//printf("loopCommand\n");
 	if (servo->loop) {
 		nestedLoopError(servo);
 	} else {
@@ -180,6 +185,7 @@ void loopCommand(Servo* servo, int times) {
  * Reached the end of a loop
  */
 void endLoopCommand(Servo* servo) {
+	//printf("endLoopCommand\n");
 	if (servo->loopcount > 0) {
 		servo->i = servo->loopstart;
 		servo->loop = 0;
@@ -190,14 +196,22 @@ void endLoopCommand(Servo* servo) {
 /**
  * Runs one recipe instruction for each servo motor
  */
-void run() {
-	unsigned char instruction = getInstruction(&servo0);
-	if (instruction != '\0') {			// While not end of recipe
-		runInstruction(&servo0, instruction);
-	}
-	instruction = getInstruction(&servo1);
-	if (instruction != '\0') {			// While not end of recipe
-		runInstruction(&servo1, instruction);
+void *run(void* id) {
+	while (1) {
+		// Check for user input
+		if (command[0] != '\0') {
+			processCommands(command);
+			command[0] = '\0';
+		}
+		// Run the recipes
+		unsigned char instruction = getInstruction(&servo0);
+		if (instruction != '\0') {			// While not end of recipe
+			runInstruction(&servo0, instruction);
+		}
+		instruction = getInstruction(&servo1);
+		if (instruction != '\0') {			// While not end of recipe
+			runInstruction(&servo1, instruction);
+		}
 	}
 }
 
@@ -205,11 +219,10 @@ void run() {
  * Runs one recipe instruction from the given recipe
  */
 void runInstruction(Servo* servo, unsigned char instruction) {
-	// DEBUG
-	// print instruction index being run
-	// printInt(servo->i);
+	//printf("runInstruction ");
 	
 	if (servo->running) {
+		//printf("running ");
 		// The servo is running
 		switch(instruction & CMD_MASK) {
 			case MOV:
@@ -235,13 +248,16 @@ void runInstruction(Servo* servo, unsigned char instruction) {
 		servo->i++;
 	}
 	else {
+		//printf("paused waitcount=%d servo-waitcount=%d", wait_time1, *servo->waitcount);
 		// The servo is paused
 		// Did the user pause the recipe
 		if (servo->paused) return;
-		// Check the wait timer for the servo
-		// Decrement count as needed
-		//if (checkWait(servo->waittimer)) decrementWait(servo);
+		// Check to see if we're done waiting
+		if (*servo->waitcount == 0) {
+			recipeContinue(servo);
+		}
 	}
+	//printf("\n");
 }
 
 /**
@@ -255,17 +271,17 @@ unsigned char getInstruction(Servo* servo) {
  * Checks servos for wait status
  */
 void decrementWait(Servo* servo) {
-  servo->waitcount--;						// Decrement wait count
-	if (servo->waitcount == 0) {	// If the wait is done
-	  recipeContinue(servo);			// Run the servo
+	(*servo->waitcount)--;				// Decrement wait count
+	if (*servo->waitcount == 0) {	// If the wait is done
+		recipeContinue(servo);		// Run the servo
 	}
 }
 
 
 
-					/////////////////////////////////////
-					//          USER COMMANDS          //
-					/////////////////////////////////////
+/////////////////////////////////////
+//          USER COMMANDS          //
+/////////////////////////////////////
 
 /*
  * Validate and process user command
@@ -291,7 +307,7 @@ int processCommand(Servo* servo, char command) {
 	if (command == 'P' || command == 'p') {
 		// Pause recipe
 		// Does not work in error state or after recipe end
-		if (!((servo->errorstate) || ((!servo->running) && (servo->waitcount==0)))) {
+		if (!((servo->errorstate) || ((!servo->running) && (*servo->waitcount==0)))) {
 			// Set user pause flag
 			servo->paused = 1;
 			recipePause(servo);
@@ -302,10 +318,8 @@ int processCommand(Servo* servo, char command) {
 		// Continue recipe
 		// Does not work after recipe end or error state
 		// User pause flag must be set
-		if (!((servo->errorstate) || ((!servo->running) && (servo->waitcount==0)))) {
-			if (servo->paused) recipeContinue(servo);
-			servo->paused=0;
-		}
+		recipeContinue(servo);
+		servo->paused=0;
 		return 1;
 	}
 	if (command == 'R' || command == 'r') {

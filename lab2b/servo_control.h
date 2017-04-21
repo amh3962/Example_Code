@@ -1,5 +1,8 @@
 #include "servo.h"
 
+// Command
+extern char command[3];
+
 // Initialization and recipe restart
 void initServos(void);
 void restartRecipe(Servo*);
@@ -11,7 +14,7 @@ void loopCommand(Servo*, int);
 void endLoopCommand(Servo*);
 
 // Runs the recipe
-void run(void);
+void *run(void*);
 void runInstruction(Servo*, unsigned char);
 unsigned char getInstruction(Servo*);
 

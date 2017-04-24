@@ -7,25 +7,28 @@
 #include <stdio.h>
 
 
-char command[3];
-
 int main(void){
 	// Initialize
 	System_Clock_Init();
 	init_pa0();
 	initTimer();
-
-	// Init servos to starting position
-	initServos();
 	
+	int* position;
+	
+	// Init servos to starting position
+	initServo(position);
+	
+	// Wait for a button press to start the servo
+	
+	
+	// Run the servo
 	while(1) {
-		if(checkInput(command)) {							// Check for user command
-			// At this point command is a string of two alphabet characters
-			int err = !processCommands(command);	// Process user commands
-			if (err) {
-				USART_Write(USART2, (uint8_t *)err_str, strlen(err_str));
-			}
+		// Check for a new reading
+		int i;
+		if (i != *position) {
+			moveServo(i);
+		} else{
+			servoWait();
 		}
-		run();																// Run next instruction from recipes
 	}
 }

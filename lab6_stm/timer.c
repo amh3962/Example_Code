@@ -31,30 +31,16 @@ void initTimer(void) {
 	TIM1->CR1 |= 0x0010;		  //Set count direction. 0 = upcount, 1 = downcount
 	TIM1->EGR |= 0x0001;
   
-	//Timer 5 setup -- Wait Timer: Servo2
-	TIM5->PSC = 0x0000;  			//Timer Prescaler = 0
-	TIM5->EGR |= 0x0001; 			//Create update event
-	TIM5->ARR = 8000000; 			//Set auto-load value. 100ms count
-	TIM5->CCER &= 0x00000000; //Turn off input enable
-	TIM5->CCMR1 &= 0x0000; 		//Capture frozen. Using as Timing Base
-	TIM5->CR1 &= 0x0000; 			//Reset control register
-	TIM5->CR1 |= 0x0010;		  //Set count direction. 0 = upcount, 1 = downcount
-	TIM5->EGR |= 0x0001;
-	
-  //Set servos to starting positions.
-	setPulseWidth(4,20);
-	TIM2->CR1 |= 0x0001;		//Enable timer
+  //Enable timer
+	TIM2->CR1 |= 0x0001;
 }
 
 // count is 200 for 20 milliseconds
 // Pulse Width Range from 4 to 20 to move servos 
-void setPulseWidth(int count1, int count2) {
+void setPulseWidth(int count) {
 	// Channel 1
 	TIM2->CCR1 &= 0x0000;		//Reset the pulse width
-	TIM2->CCR1 |= count1;		//Set pulse width
-	// Channel 2
-	TIM2->CCR2 &= 0x0000;		//Reset the pulse width
-	TIM2->CCR2 |= count2;		//Set pulse width
+	TIM2->CCR1 |= count;		//Set pulse width
 	// Update event
 	TIM2->EGR |= 0x0001;
 }
@@ -66,42 +52,22 @@ void runWaitTimer() {
 }
 
 // Check the specified timer
-int checkWait(int timer) {
-	if (timer == 1) {
-		if((TIM1->SR) & 0x0001) // Check for end of count
-		{
-			TIM1->SR &= 0x00000000;
-			return 1;
-		}
-	}
-	if (timer == 5) {
-		if((TIM5->SR) & 0x0001) // Check for end of count
-		{
-			TIM5->SR &= 0x00000000;
-			return 1;
-		}
+int checkWait() {
+	if((TIM1->SR) & 0x0001) // Check for end of count
+	{
+		TIM1->SR &= 0x00000000;
+		return 1;
 	}
 	return 0;
 }
 
 // Turns off the specified timer
-void stopTimer(int timer) {
-	if (timer == 1) {
-		TIM1->CR1 &= 0xFFFE;
-	}
-	if (timer == 5) {
-		TIM5->CR1 &= 0xFFFE;
-	}
+void stopTimer() {
+	TIM1->CR1 &= 0xFFFE;
 }
 
 // Turns on the specified timer
-void startTimer(int timer) {
-	if (timer == 1) {
-		TIM1->SR &= 0x00000000;
-		TIM1->CR1 |= 0x0001;
-	}
-	if (timer == 5) {
-		TIM5->SR &= 0x00000000;
-		TIM5->CR1 |= 0x0001;
-	}
+void startTimer() {
+	TIM1->SR &= 0x00000000;
+	TIM1->CR1 |= 0x0001;
 }

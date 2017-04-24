@@ -1,6 +1,6 @@
 void initTimer(void);
-void setPulseWidth(int, int);
+void setPulseWidth(int);
 void runWaitTimer(void);	
-int checkWait(int);
-void stopTimer(int);
-void startTimer(int);
+int checkWait(void);
+void stopTimer(void);
+void startTimer(void);

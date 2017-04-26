@@ -1,6 +1,6 @@
 #include "init.h"
 
-void init_pa0( void )
+void init_pins( void )
 {
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN ;		// enable clock for A group of GPIO
 	GPIOA->MODER &= 0xABFFFFF0;							// clear out bits 16 to 19 for PA0 and PA1

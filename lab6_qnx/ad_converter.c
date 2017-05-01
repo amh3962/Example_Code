@@ -34,10 +34,10 @@ void ad_init () //Run at start
 	portA = mmap_device_io( PORT_LENGTH, DIOA_Address);
 	portB = mmap_device_io( PORT_LENGTH, DIOB_Address);
 
-	out8( ctrl_reg, CTRL_init); //Set ports A and B as output
+	out8(ctrl_reg, CTRL_init); //Set ports A and B as output
 	out8(interrupt, 0x00); //Disable Interrupts
-	out8(input_channel, 0x11); //Select Channel 1
-	out8(wait_bit, 0x01); //Set Â±5V range
+	out8(input_channel, 0x44); //Select Channel 4
+	out8(wait_bit, 0x01); //Set ±5V range
 }
 
 void ad_converter () //Thread
@@ -73,11 +73,15 @@ int checkstatus()
 
 void QNX_to_STM () 
 {
+	int voltage = 0;
 	//send result of AD conversion to STM board
 	LSB = in8(base);
 	MSB = in8(base + 1);
 	Data = MSB * 256 + LSB; //Use to display voltage?
 
-	out8(portA, LSB);
-	out8(portB, MSB);
+	voltage =  Data / 32768 * 5;
+	printf("%d\n", voltage);
+
+	//out8(portA, LSB);
+	//out8(portB, MSB);
 }

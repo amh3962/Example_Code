@@ -415,11 +415,6 @@
               <FilePath>.\SysClock.h</FilePath>
             </File>
             <File>
-              <FileName>init.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\init.h</FilePath>
-            </File>
-            <File>
               <FileName>init.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\init.c</FilePath>
@@ -433,6 +428,21 @@
               <FileName>servo_control.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\servo_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>init.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\init.h</FilePath>
+            </File>
+            <File>
+              <FileName>led.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\led.h</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\led.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -36,6 +36,7 @@ int main(void){
 			// Check if the position has changed
 			if (i != *position) {
 				moveServo(i);
+				// Maybe 
 			} else{
 				servoWait();
 			}

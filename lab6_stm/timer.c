@@ -11,9 +11,9 @@ void initTimer(void) {
 	RCC->APB2ENR |= 0x00000800;
   
 	//Timer 2 Setup -- Control servos
-	TIM2->PSC = 800;  				//Timer Prescaler = 8000; 100 microseconds per count
+	TIM2->PSC = 800;  				//Timer Prescaler = 800; 10 microseconds per count
 	TIM2->EGR |= 0x0001; 			//Create update event
-	TIM2->ARR = 2000; 					//Set auto-load value; 200 for 20 milliseconds
+	TIM2->ARR = 2000; 					//Set auto-load value; 2000 for 20 milliseconds
 	TIM2->CCER &= 0x0000;			//Turn off input enable
 	TIM2->CCMR1 &= 0x0000;
 	TIM2->CCMR1 |= 0x6868;  	//Input Capture pwm mode 1 for channel 1 & 2

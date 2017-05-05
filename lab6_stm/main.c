@@ -3,6 +3,7 @@
 #include "led.h"
 #include "init.h"
 #include "servo_control.h"
+#include "read_data.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -15,31 +16,26 @@ int main(void){
 	initTimer();
 	LED_Init();
 	
-	int* position;
-	
 	// Wait for a button/joystick press to start the servo
 	
 	
 	// Init servos to starting position
-	initServo(position);
+	initServo();
+	
+	while(1) {
+		;
+	}
 	
 	// Run the servo
 	while(1) {
-		// Check if communication link is up
-		// if (not connected) redLEDOn();
 		// Get value
-		int i = 50;
+		int i = get_data();
 		// Check if input is out of expected range
-		// TODO: Update expected range of values
-		if (i < 0 || i >100) redLEDOn();
+		if (i < 63 || i > 188) redLEDOn();
+		// If we are in the expected range, move the servo
 		else {
-			// Check if the position has changed
-			if (i != *position) {
-				moveServo(i);
-				// Maybe 
-			} else{
-				servoWait();
-			}
+			moveServo(i);
+			servoWait();
 		}
 	}
 }

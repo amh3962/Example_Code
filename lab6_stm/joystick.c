@@ -1,8 +1,40 @@
 // https://github.com/frisnit/STM32L476-radar/blob/8cdf8e68006f85f321a1309565379e80d5fb5a26/software/STM32-radar/Utilities/STM32L476G-Discovery/stm32l476g_discovery.c
 
-#include "stm32l476g_discovery.h"
+/**
+ * @brief JOYSTICK Types Definition
+ */
+typedef enum 
+{ 
+  JOY_SEL   = 0,
+  JOY_LEFT  = 1,
+  JOY_RIGHT = 2,
+  JOY_DOWN  = 3,
+  JOY_UP    = 4,
+  JOY_NONE  = 5
+}JOYState_TypeDef;
 
- GPIO_TypeDef* JOY_PORT[JOYn] =  {SEL_JOY_GPIO_PORT,
+typedef enum 
+{  
+  JOY_MODE_GPIO = 0,
+  JOY_MODE_EXTI = 1
+}JOYMode_TypeDef;
+
+typedef enum 
+{  
+  SUPPLY_MODE_ERROR = 0,
+  SUPPLY_MODE_EXTERNAL = 1,
+  SUPPLY_MODE_BATTERY = 2
+}SupplyMode_TypeDef;
+
+
+#define SEL_JOY_PIN                       GPIO_PIN_0   /* PA.00 */
+#define SEL_JOY_GPIO_PORT                 GPIOA
+#define SEL_JOY_GPIO_CLK_ENABLE()         __HAL_RCC_GPIOA_CLK_ENABLE()
+#define SEL_JOY_GPIO_CLK_DISABLE()        __HAL_RCC_GPIOA_CLK_DISABLE()
+#define SEL_JOY_EXTI_IRQn                 EXTI0_IRQn 
+
+
+GPIO_TypeDef* JOY_PORT[JOYn] =  {SEL_JOY_GPIO_PORT,
                                   DOWN_JOY_GPIO_PORT,
                                   LEFT_JOY_GPIO_PORT,
                                   RIGHT_JOY_GPIO_PORT,

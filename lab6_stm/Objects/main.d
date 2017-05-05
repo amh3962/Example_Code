@@ -12,5 +12,6 @@
 .\objects\main.o: led.h
 .\objects\main.o: init.h
 .\objects\main.o: servo_control.h
+.\objects\main.o: read_data.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

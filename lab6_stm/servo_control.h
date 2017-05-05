@@ -1,12 +1,12 @@
 // Servo struct
 typedef struct _Servo {
-	int* position;	// current position
+	int position;	// current position
 	int waitcount;	// counter for wait
 } Servo;
 
 
 // Initialization
-void initServo(int*);
+void initServo(void);
 
 // Servo moving and waiting
 void moveServo(int);

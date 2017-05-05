@@ -12,3 +12,4 @@ void initServo(void);
 void moveServo(int);
 int positionToPWMCount(int);
 void servoWait(void);
+int waiting(void);

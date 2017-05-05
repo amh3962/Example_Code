@@ -15,7 +15,9 @@ Servo servo = {
  */
 void initServo() {
 	// Servo starts at position 0
-	moveServo(0);
+	moveServo(63);
+	servo.position = 0;
+	//setPulseWidth(40);
 }
 
 /**
@@ -28,20 +30,23 @@ void moveServo(int val) {
 	if (val < 63) {
 		pos = 0;
 	}
-	if (val > 188) {
+	else if (val > 188) {
 		pos = 125;
 	}
-	pos = val - 63;
+	else {
+		pos = val - 63;
+	}
 	
 	// calculate wait time for servo to move
-	int wait = abs(servo.position-pos) * 2;
+	int wait = abs(servo.position-pos);
 	// Update servo position
 	servo.position = pos;
 	// Change the PWM
-	int PWM = positionToPWMCount(servo.position);
+	int PWM = positionToPWMCount(pos);
 	setPulseWidth(PWM);
 	// Set the wait count for until the servo has reached its position
-	servo.waitcount = wait;
+	servo.waitcount = 1;
+	startTimer();
 }
 
 /**
@@ -63,4 +68,18 @@ void servoWait() {
 		// Check to see if 100ms have passed
 		if (checkWait()) servo.waitcount--;
 	}
+	if (servo.waitcount == 0) {
+		stopTimer();
+	}
+}
+
+/**
+ * Check if servo is moving
+ */
+int waiting() {
+	if(servo.waitcount == 0)
+	{
+		return 0;
+	}
+	return 1;
 }

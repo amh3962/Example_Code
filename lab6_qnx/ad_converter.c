@@ -12,9 +12,9 @@
 #define DIOA_Address 0x288
 #define DIOB_Address 0x289
 
-int LSB;
-int MSB;
-int Data;
+int16_t LSB;
+int16_t MSB;
+int16_t Data;
 
 uintptr_t wait_bit;
 uintptr_t start_ad;
@@ -37,7 +37,8 @@ void ad_init () //Run at start
 	out8(ctrl_reg, CTRL_init); //Set ports A and B as output
 	out8(interrupt, 0x00); //Disable Interrupts
 	out8(input_channel, 0x44); //Select Channel 4
-	out8(wait_bit, 0x01); //Set ±5V range
+	out8(wait_bit, 0x00); //Set ±10V range
+	out8(portA, 0x02); //for debugging. Used to find A0 and A1
 }
 
 void ad_converter () //Thread
@@ -73,15 +74,19 @@ int checkstatus()
 
 void QNX_to_STM () 
 {
-	int voltage = 0;
+	float voltage = 0;
+	int pos = 0;
 	//send result of AD conversion to STM board
 	LSB = in8(base);
 	MSB = in8(base + 1);
 	Data = MSB * 256 + LSB; //Use to display voltage?
 
-	voltage =  Data / 32768 * 5;
-	printf("%d\n", voltage);
+	voltage =  Data / (float)32768 * 10;
 
-	//out8(portA, LSB);
-	//out8(portB, MSB);
+	pos = (int)((voltage + 10) * 12.75);;
+
+	out8(portA, pos);
+	if ((pos < 63 || pos > 188)) {
+		printf("Voltage out of range error\n");
+	}
 }

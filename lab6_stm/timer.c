@@ -22,9 +22,9 @@ void initTimer(void) {
 	TIM2->CR1 |= 0x0080;			//Auto loading
 	
   //Timer 1 setup -- Wait Timer: Servo1
-	TIM1->PSC = 8000;  				//Timer Prescaler = 0
+	TIM1->PSC = 8000;  				//100us count
 	TIM1->EGR |= 0x0001; 			//Create update event
-	TIM1->ARR = 1000; 				//Set auto-load value. 100ms count
+	TIM1->ARR = 200; 					//Set auto-load value. 100 for 10 ms
 	TIM1->CCER &= 0x00000000; //Turn off input enable
 	TIM1->CCMR1 &= 0x0000; 		//Capture frozen. Using as Timing Base
 	TIM1->CR1 &= 0x0000; 			//Reset control register

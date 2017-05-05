@@ -19,5 +19,5 @@ void init_pins( void )
 	
 	//Select Alt function 1 for PA0
   GPIOA->AFR[0] &= 0xFFFFFFF0;
-  GPIOA->AFR[0] |= 0x00000001;            
+  GPIOA->AFR[0] |= 0xFFFFFFF1;            
 }

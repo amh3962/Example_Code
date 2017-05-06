@@ -430,11 +430,6 @@
               <FilePath>.\init.h</FilePath>
             </File>
             <File>
-              <FileName>led.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\led.h</FilePath>
-            </File>
-            <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\led.c</FilePath>
@@ -443,6 +438,21 @@
               <FileName>read_data.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\read_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\servo_control.h</FilePath>
+            </File>
+            <File>
+              <FileName>UART.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\UART.h</FilePath>
+            </File>
+            <File>
+              <FileName>UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\UART.c</FilePath>
             </File>
           </Files>
         </Group>

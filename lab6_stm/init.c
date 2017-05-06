@@ -13,11 +13,10 @@ void init_pins( void )
 	// PB2, 3, 6 and 7 to input
 	GPIOB->MODER &= 0xABFF000F;		
 	
-	//Set PE8 as output
-	GPIOE->MODER &= 0xABF0FFFF;							
-	GPIOE->MODER |= 0xABF1FFFF;							
-	
+	//Set PE11 as input
+	GPIOE->MODER &= 0xAB0FFFFF;							
+							
 	//Select Alt function 1 for PA0
   GPIOA->AFR[0] &= 0xFFFFFFF0;
-  GPIOA->AFR[0] |= 0xFFFFFFF1;            
+  GPIOA->AFR[0] |= 0xFFFFFFF1;
 }

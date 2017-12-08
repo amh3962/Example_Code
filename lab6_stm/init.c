@@ -7,7 +7,7 @@ void init_pins( void )
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOEEN;
 	
-	GPIOA->MODER &= 0xABFFF000;							// clear out bits for PA0, 1, 2, 3, and 5
+	GPIOA->MODER &= 0xABFFF000;						// clear out bits for PA0, 1, 2, 3, and 5
 	GPIOA->MODER |= 0xABFFF302 ;						// PA0 is now in Alt Function mode
 	
 	// PB2, 3, 6 and 7 to input
